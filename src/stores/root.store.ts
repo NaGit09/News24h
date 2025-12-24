@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { counterStore } from './counter.store';
+import newsReducer from './news.store';
 // register root store
 export const store = configureStore({
     reducer: {
-        counter: counterStore.reducer,
+        news: newsReducer,
     },
 });
 

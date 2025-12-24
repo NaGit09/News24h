@@ -1,39 +1,23 @@
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
-import { increment } from './store/counter.store'
-import { Button } from './components/ui/button'
+import "./App.css";
+
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { MainLayout } from "@/layouts/MainLayout";
+import Category from "./views/Category";
 
 function App() {
-  const counter = useSelector((state: any) => state.counter.value);
-  const dispatch = useDispatch();
-  
   return (
-    <div className='bg-black w-screen h-screen text-white absolute-center flex-col'>
-      <div className='flex'>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card flex items-center justify-center flex-col gap-2">
-        <Button className='bg-blue-500 hover:bg-blue-600' onClick={() => dispatch(increment())}>
-          count is {counter}
-        </Button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route element={<MainLayout />}>
+          <Route
+            path="/"
+            element={<Navigate to="/tin-moi-nhat" replace />}
+          />
+          <Route path="/:category" element={<Category />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

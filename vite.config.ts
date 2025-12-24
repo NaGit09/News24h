@@ -10,4 +10,14 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     },
   },
-})
+  server: {
+    proxy: {
+      "/api/rss": {
+        target: "https://vnexpress.net",
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api\/rss/, "/rss"),
+      },
+    },
+  },
+});
