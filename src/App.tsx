@@ -3,7 +3,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { MainLayout } from "@/layouts/MainLayout";
 import Category from "./views/Category";
-
+import News from "./views/News";
 function App() {
   return (
     <BrowserRouter>
@@ -14,6 +14,7 @@ function App() {
             element={<Navigate to="/tin-moi-nhat" replace />}
           />
           <Route path="/:category" element={<Category />} />
+          <Route path="/:category/:newsInfo" element={<News />} />
         </Route>
       </Routes>
     </BrowserRouter>

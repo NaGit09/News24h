@@ -89,7 +89,7 @@ const Category = () => {
 
               <div className="pt-4 mt-auto border-t border-gray-100">
                 <a
-                  href={item.link}
+                  href={`/${category}/${item.link.split("/").pop()}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 text-sm font-semibold hover:text-blue-700 flex items-center gap-1"

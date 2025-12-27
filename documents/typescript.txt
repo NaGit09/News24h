@@ -1,0 +1,39 @@
+TypeScript is a superset of JavaScript
+Static typing
+Compile to JavaScript
+
+TS data types : 
+string , number , boolean , null , undefined 
+object , array , tuple , enum , any ,
+void , never , unknown
+
+Interface declare object shape
+
+Type alias : 
+    type Status = "loading" | "success" | "error"
+
+Generic : 
+    type GenericType<T> = T[]
+
+Utility type :  
+    Partial<T> : Optional all properties of T
+    Required<T> : Required all properties of T
+    Readonly<T> : Readonly all properties of T  
+    Pick<T, K> : Pick properties of T
+    Record<K, T> : Create object with key K and value T
+    Omit<T, K> : Omit properties of T
+
+Class and OOP in TS : 
+
+modifier : 
+    public : default
+    private : can't access from outside
+    protected : can't access from outside
+    readonly : can't modify
+
+constructor , method , property
+
+any , unknown , never , void
+
+Type assertion : 
+    const input = document.getElementById("app") as HTMLDivElement;

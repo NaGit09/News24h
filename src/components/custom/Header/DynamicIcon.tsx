@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { ActivityIconHandle } from "@/components/ui/activity";
-import type { DynamicIconProps } from "@/types/icon.type";
+import type { DynamicIconProps } from "@/types/icon";
 
 const DynamicIcon = ({
   to,
@@ -18,10 +18,10 @@ const DynamicIcon = ({
       <Button
         variant="ghost"
         className={cn("hover:text-green-500 hover:bg-transparent", className)}
-        onMouseEnter={() => iconRef.current?.startAnimation()}
-        onMouseLeave={() => iconRef.current?.stopAnimation()}
+        onMouseEnter={() => iconRef.current?.startAnimation?.()}
+        onMouseLeave={() => iconRef.current?.stopAnimation?.()}
       >
-        <Icon ref={iconRef} />
+        {Icon && <Icon ref={iconRef} />}
         {label}
       </Button>
     </Link>

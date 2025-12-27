@@ -1,23 +1,26 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import getCategoriesNews from '@/news/Paser';
-import type { Category } from '@/types/rss.type';
-
-interface NewsState {
-    feed: Category | null;
-    loading: boolean;
-    error: string | null;
-}
+import type { NewsState } from '@/types/news';
+import { getCategoriesNews, getNewsDetail } from '@/lib/Paser';
 
 const initialState: NewsState = {
     feed: null,
     loading: false,
     error: null,
+    news: null,
 };
 
 export const fetchCategoriesNews = createAsyncThunk(
     'news/fetchCategoriesNews',
     async (category: string) => {
         const response = await getCategoriesNews(category);
+        return response;
+    }
+);
+
+export const fetchNews = createAsyncThunk(
+    'news/fetchNews',
+    async (news: string) => {
+        const response = await getNewsDetail(news);
         return response;
     }
 );
@@ -37,6 +40,19 @@ export const newsSlice = createSlice({
                 state.feed = action.payload;
             })
             .addCase(fetchCategoriesNews.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to fetch news';
+            });
+        builder
+            .addCase(fetchNews.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchNews.fulfilled, (state, action) => {
+                state.loading = false;
+                state.news = action.payload;
+            })
+            .addCase(fetchNews.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message || 'Failed to fetch news';
             });

@@ -1,6 +1,6 @@
 export interface DynamicIconProps {
     to: string;
-    icon: React.ElementType;
+    icon?: React.ElementType;
     label: React.ReactNode;
     className?: string;
 }

@@ -1,0 +1,23 @@
+What is HTML ? 
+HTML is mean Hyper Text Markup Language.
+It is a standard markup language for creating web pages and web applications.
+Also , HTML is not programming language.
+
+Hyper Text :  text with link to other text.
+
+Markup Language : is a computer language consists of tags or plain text that is used to 
+control the structure and formatting of a text document.
+
+HTML consists of 2 tag types : 
+1) Empty tag : There tags do not require to be closed
+2) Paired tag : There tags come in pairs. That is, They have both opening and closing tags.
+
+An HTML Document is predominantly divided into 2 parts : 
+1) Head : This part consists of meta-information about the document.
+2) Body : This part consists of everything that you want to display on the web page.
+
+Elements : An HTML element consists of 3 parts : 
+1) Opening tag
+2) Content
+3) Closing tag
+

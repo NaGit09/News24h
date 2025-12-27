@@ -1,0 +1,109 @@
+CSS : Cascading Style Sheet
+It is used to style HTML elements (like changing colors, fonts, layouts).
+Without CSS, websites would look plain and boring.
+CSS makes websites beautiful, organized, and user-friendly.
+
+Browser render in order : 
+    1. HTML create DOM tree 
+    2. CSS create CSSOM tree 
+    3. JavaScript create JSOM tree 
+    4. Render tree 
+    5. Layout 
+    6. Paint
+
+Synxtax and structure : 
+selector {
+  property: value;
+}
+
+Adding css to html 
+
+There are three main ways to add CSS to HTML:
+    Inline CSS with style attribute in html tag 
+    Internal CSS with style tag in head section 
+    External CSS with link tag to external css file
+
+CSS selector : 
+    tag selector : 
+    tag {
+        property: value;
+    }
+
+    class selector : 
+    .class {
+        property: value;
+    }
+
+    id selector : 
+    #id {
+        property: value;
+    }
+
+    universal selector : 
+    * {
+        property: value;
+    }
+
+    attribute selector : 
+    [attribute] {
+        property: value;
+    }
+
+    pseudo-class selector : 
+    :hover {
+        property: value;
+    }
+
+    pseudo-element selector : 
+    ::before {
+        property: value;
+    }
+
+    combinator selector : 
+    tag tag {
+        property: value;
+    }
+
+    child combinator selector : 
+    tag > tag {
+        property: value;
+    }
+
+    general sibling combinator selector : 
+    tag ~ tag {
+        property: value;
+    }
+
+    adjacent sibling combinator selector : 
+    tag + tag {
+        property: value;
+    }
+
+    
+Specificity : 
+    1. Inline styles (highest priority)
+    2. ID selectors
+    3. Class selectors, attribute selectors, and pseudo-classes
+    4. Element selectors and pseudo-elements (lowest priority)
+
+Model box : 
+    content 
+    padding 
+    border 
+    margin
+
+Display : 
+    block, inline, inline-block, flex, grid, table, none
+
+Flex box : 
+    justify , align , wrap , direction, 
+    grow, shrink, basis 
+
+Measure unit : 
+    px, em, rem, %, vh, vw
+
+Animation : 
+    keyframes, animation 
+
+BEM : Block Element Modifier
+

@@ -12,11 +12,19 @@ export default defineConfig({
   },
   server: {
     proxy: {
+      // Proxy handle rss
       "/api/rss": {
-        target: "https://vnexpress.net",
+        target: "https://cdn.24h.com.vn/upload",
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api\/rss/, "/rss"),
+      },
+      // Proxy handle article
+      "/api": {
+        target: "https://www.24h.com.vn/",
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api\//, ""),
       },
     },
   },

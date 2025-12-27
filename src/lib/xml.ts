@@ -1,4 +1,4 @@
-import { type Category } from "@/types/rss.type";
+import { type Category } from "@/types/rss";
 
 export const handleXml = (data: string) => {
     const doc: Document = new DOMParser().parseFromString(data, "text/xml");

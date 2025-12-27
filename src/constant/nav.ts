@@ -1,20 +1,20 @@
 import type { NavItem } from "@/types/common";
+import { ActivityIcon } from "@/components/ui/activity";
+import { HandCoinsIcon } from "@/components/ui/hand-coins";
+import { StethoscopeIcon } from "@/components/ui/stethoscope";
+import { FileTextIcon } from "@/components/ui/file-text";
+import { HomeIcon } from "@/components/ui/home";
+import { SmileIcon } from "@/components/ui/smile";
+import { CpuIcon } from "@/components/ui/cpu";
+import { CompassIcon } from "@/components/ui/compass";
 
 export const navItems: NavItem[] = [
-    { label: "Trang chủ", href: "/tin-moi-nhat", color: 'red' },
-    { label: "Thế giới", href: "/the-gioi", color: 'blue' },
-    { label: "Thời sự", href: "/thoi-su", color: 'green' },
-    { label: "Kinh doanh", href: "/kinh-doanh", color: 'yellow' },
-    { label: "Giải trí", href: "/giai-tri", color: 'orange' },
-    { label: "Thể thao", href: "/the-thao", color: 'purple' },
-    { label: "Pháp luật", href: "/phap-luat", color: 'pink' },
-    { label: "Giáo dục", href: "/giao-duc", color: 'blue' },
-    { label: "Tin nổi bật", href: "/tin-noi-bat", color: 'green' },
-    { label: "Sức khỏe", href: "/suc-khoe", color: 'yellow' },
-    { label: "Đời sống", href: "/doi-song", color: 'orange' },
-    { label: "Du lịch", href: "/du-lich", color: 'purple' },
-    { label: "Khoa học công nghệ", href: "/khoa-hoc-cong-nghe", color: 'pink' },
-    { label: "Xe", href: "/oto-xe-may", color: 'blue' },
-    { label: "Tâm sự", href: "/tam-su", color: 'green' },
-    { label: "Cười", href: "/cuoi", color: 'yellow' },
+    { label: "Trang chủ", href: "/trangchu24h", color: 'red', icon: HomeIcon },
+    { label: "Tin tức", href: "/tintuctrongngay", color: 'blue', icon: FileTextIcon },
+    { label: "Bóng đá", href: "/bongda", color: 'purple', icon: ActivityIcon },
+    { label: "Kinh doanh", href: "/kinhdoanh", color: 'yellow', icon: HandCoinsIcon },
+    { label: "Giải trí", href: "/giaitri", color: 'blue', icon: SmileIcon },
+    { label: "Sức khỏe", href: "/suckhoedoisong", color: 'yellow', icon: StethoscopeIcon },
+    { label: "Hi tech", href: "/congnghethongtin", color: 'orange', icon: CpuIcon },
+    { label: "Ô tô", href: "/oto", color: 'blue', icon: CompassIcon },
 ];

@@ -1,0 +1,88 @@
+JavaScript is a high-level, interpreted programming language primarily used in web development.
+Unlike HTML and CSS, which focus on structure and style, JavaScript adds logic,
+interactivity, and behavior to web pages.
+
+JavaScript runs in the browser and allows you to:
+    Handle user events (like clicks or form inputs)
+    Modify HTML and CSS on the fly
+    Send and receive data from servers (using APIs)
+    Build rich web applications like calculators, games, or dashboards.
+
+Today, JavaScript is not just a browser-based language. 
+With environments like Node.js, it can also be used to write server-side applications,
+command-line tools, and more.
+
+
+Execution context : 
+    Global execution context 
+    Function execution context
+    Evaluation context
+
+Hoisting : 
+    var hoisted value = undefined
+    const,let hoisted value = ReferenceError
+    function hoisted value = function
+
+Scope : 
+    Global scope
+    Function scope
+    Block scope
+
+Scope chain : 
+    Local -> Outer -> Global
+    
+JS use Lexical scope , determine scope at declaration time
+
+Closure: A function that remembers the scope where it was created,
+ even after it has left that scope.
+
+    
+Promise -> Async/Await :
+
+Async : Keyword to declare a function as asynchronous , alway return promise object
+Await : Keyword to pause the execution of an async function until a Promise is resolved
+
+Memory management and garbage collection : 
+
+    Mark & Sweep : 
+        1. Mark : Mark all objects in use
+        2. Sweep : Remove all objects that are not marked
+    
+    Memory leak : 
+        1. Global variables
+        2. Event listeners
+        3. setInterval and setTimeout
+        4. Closures
+
+ES6 : 
+    1) Destructuring 
+        - Array destructuring : [...array]
+        - Object destructuring : {...object}
+        - Nested destructuring : {...object}
+        - Default values : [...array = []]
+        - Rest parameters : (...args)
+
+    2) Spread / Rest
+        - Array spread : [...array]
+        - Object spread : {...object}
+        - Rest parameters : (...args)
+
+    3) Arrow function
+        - () => {}
+        - (param) => {}
+        - (param1, param2) => {}
+        - (param1, param2) => {return param1 + param2}
+    
+    4) Modules
+        - Import : import {name} from 'module'
+        - Export : export {name}
+    
+    5) Optional chaning
+        - obj?.prop 
+    
+    6) Nullish coalescing
+        - ??
+ 
+    
+    
+
