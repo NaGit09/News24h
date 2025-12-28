@@ -11,7 +11,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route
             path="/"
-            element={<Navigate to="/tin-moi-nhat" replace />}
+            element={<Navigate to="/trangchu24h" replace />}
           />
           <Route path="/:category" element={<Category />} />
           <Route path="/:category/:newsInfo" element={<News />} />

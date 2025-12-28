@@ -28,7 +28,11 @@ export const fetchNews = createAsyncThunk(
 export const newsSlice = createSlice({
     name: 'news',
     initialState,
-    reducers: {},
+    reducers: {
+        setLoading: (state, action) => {
+            state.loading = action.payload;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchCategoriesNews.pending, (state) => {
@@ -58,5 +62,7 @@ export const newsSlice = createSlice({
             });
     },
 });
+
+export const { setLoading } = newsSlice.actions;
 
 export default newsSlice.reducer;

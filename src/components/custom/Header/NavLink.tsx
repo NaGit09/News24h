@@ -17,6 +17,7 @@ const NavLink = () => {
             icon={item.icon}
             label={item.label}
             className={hoverColorClass[item.color || "default"]}
+            
           />
         );
       })}
