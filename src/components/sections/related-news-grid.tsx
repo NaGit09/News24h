@@ -7,7 +7,6 @@ interface RelatedNewsGridProps {
 
 export function RelatedNewsGrid({category}: RelatedNewsGridProps) {
 
-
     return (
         <div className="mt-12 border-t-2 border-primary pt-8">
             <h2 className="mb-6 text-2xl font-bold text-foreground">
