@@ -8,13 +8,11 @@ import { setComments } from "@/stores/comment.store";
 import CommentForm from "../common/CommentForm";
 
 export function ArticleComments() {
-
   const dispatch = useDispatch();
 
   const comments = useSelector((state: RootState) => state.comment.comments);
 
   useEffect(() => {
-
     if (comments.length === 0) {
       dispatch(setComments(commentsData));
     }
