@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { fetchAllNews, fetchRSSFeed, type RSSArticle } from '@/services/rss';
+import { fetchAllNews, fetchFeed } from '@/services/news.service';
+import type { Article } from '@/types/news';
+import { CATEGORY_URL_MAP } from '@/constant/categories';
 
 export function useRSSFeeds() {
-  const [articles, setArticles] = useState<RSSArticle[]>([]);
+  const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -44,36 +46,11 @@ export function useRSSFeeds() {
 }
 
 export function useRSSByCategory(category: string) {
-  const [articles, setArticles] = useState<RSSArticle[]>([]);
+  const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  // Map category name to RSS URL
-  const categoryUrlMap: Record<string, string> = {
-    "Tin tức": "/api/rss/tintuctrongngay.rss",
-    "Bóng đá": "/api/rss/bongda.rss",
-    "Asian Cup": "/api/rss/asiancup2019.rss",
-    "An ninh": "/api/rss/anninhhinhsu.rss",
-    "Thời trang": "/api/rss/thoitrang.rss",
-    "Hi-tech": "/api/rss/thoitranghitech.rss",
-    "Kinh doanh": "/api/rss/taichinhbatdongsan.rss",
-    "Ẩm thực": "/api/rss/amthuc.rss",
-    "Làm đẹp": "/api/rss/lamdep.rss",
-    "Phim": "/api/rss/phim.rss",
-    "Giáo dục": "/api/rss/giaoducduhoc.rss",
-    "Bạn trẻ": "/api/rss/bantrecuocsong.rss",
-    "Ca nhạc": "/api/rss/canhacmtv.rss",
-    "Thể thao": "/api/rss/thethao.rss",
-    "Phi thường": "/api/rss/phithuongkyquac.rss",
-    "Công nghệ": "/api/rss/congnghethongtin.rss",
-    "Ô tô": "/api/rss/oto.rss",
-    "Thị trường": "/api/rss/thitruongtieudung.rss",
-    "Du lịch": "/api/rss/dulich.rss",
-    "Sức khỏe": "/api/rss/suckhoedoisong.rss",
-    "Cười": "/api/rss/cuoi24h.rss",
-  };
-
-  const categoryUrl = categoryUrlMap[category];
+  const categoryUrl = CATEGORY_URL_MAP[category];
 
   useEffect(() => {
     if (!categoryUrl) {
@@ -87,7 +64,7 @@ export function useRSSByCategory(category: string) {
     async function loadFeeds() {
       try {
         setLoading(true);
-        const feed = await fetchRSSFeed(categoryUrl, category);
+        const feed = await fetchFeed(categoryUrl, category);
         
         if (mounted) {
           setArticles(feed?.articles || []);

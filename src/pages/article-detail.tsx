@@ -1,4 +1,3 @@
-
 import { useParams } from "react-router"
 import { Breadcrumbs } from "@/components/layout/breadcrumbs.tsx"
 import { ArticleMeta } from "@/components/article/article-meta.tsx"
@@ -16,11 +15,12 @@ import { ReadingHistory, useTrackReading } from "@/components/widgets/reading-hi
 import { useRSSFeeds } from "@/hooks/use-rss"
 import { useArticle } from "@/hooks/use-article"
 import { useEffect, useState } from "react"
+import type { Article } from "@/types/news"
 
 export default function ArticlePage() {
   const { slug } = useParams<{ slug: string }>()
   const { articles, loading: rssLoading } = useRSSFeeds()
-  const [rssArticle, setRssArticle] = useState<any>(null)
+  const [rssArticle, setRssArticle] = useState<Article | null>(null)
   
   // Find RSS article metadata
   useEffect(() => {

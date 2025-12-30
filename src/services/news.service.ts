@@ -3,6 +3,7 @@ import {XMLParser} from 'fast-xml-parser';
 import * as cheerio from 'cheerio';
 import type {Article, ArticleDetail, NewsFeed, RawArticle, RawChannel} from "@/types/news.ts";
 import {cleanHtmlContent, extractSlug} from "@/lib/parser.ts";
+import {RSS_CATEGORIES} from "@/constant/categories.ts";
 
 export const NewsApi = async (category: string): Promise<string> => {
     const response = await axiosInstance.get(`/api/rss/${category}.rss`);
@@ -16,7 +17,7 @@ const xmlParser = new XMLParser({
     trimValues: true,
 });
 
-export async function fetchFeed(url: string, category: string): Promise<NewsFeed | null> {
+export async function  fetchFeed(url: string, category: string): Promise<NewsFeed | null> {
     try {
         const response = await fetch(url);
         const xmlText = await response.text();
@@ -90,4 +91,18 @@ export async function getFullArticle(url: string): Promise<ArticleDetail | null>
         console.error("Crawl error:", err);
         return null;
     }
+}
+
+export async function fetchAllNews(): Promise<Article[]> {
+    const promises = RSS_CATEGORIES.map(cat => fetchFeed(cat.url, cat.category));
+    const results = await Promise.allSettled(promises);
+
+    const allArticles: Article[] = [];
+    results.forEach(res => {
+        if (res.status === 'fulfilled' && res.value) {
+            allArticles.push(...res.value.articles);
+        }
+    });
+
+    return allArticles.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
 }
