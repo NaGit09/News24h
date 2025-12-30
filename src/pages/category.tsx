@@ -1,4 +1,3 @@
-
 import { useParams } from "react-router"
 import { NewsCardFeatured } from "@/components/news/news-card-featured.tsx"
 import { NewsCardSmall } from "@/components/news/news-card-small.tsx"
@@ -7,6 +6,7 @@ import { CategoryFilterTabs } from "@/components/common/category-filter-tabs.tsx
 import { Breadcrumbs } from "@/components/layout/breadcrumbs.tsx"
 import { useState, useEffect, useRef } from "react"
 import { useRSSByCategory } from "@/hooks/use-rss"
+import { getCategoryName } from "@/lib/category-utils"
 
 export default function CategoryPage() {
   const { category } = useParams<{ category: string }>()
@@ -16,33 +16,7 @@ export default function CategoryPage() {
   const [hasMore, setHasMore] = useState(true)
   const observerRef = useRef<HTMLDivElement>(null)
 
-  // Map URL slug to category name
-  const categoryMap: Record<string, string> = {
-    "tin-tuc": "Tin tức",
-    "bong-da": "Bóng đá",
-    "kinh-doanh": "Kinh doanh",
-    "giai-tri": "Giải trí",
-    "suc-khoe": "Sức khỏe",
-    "hi-tech": "Hi-tech",
-    "the-gioi": "Thế giới",
-    "the-thao": "Thể thao",
-    "o-to": "Ô tô",
-    "an-ninh": "An ninh",
-    "thoi-trang": "Thời trang",
-    "am-thuc": "Ẩm thực",
-    "lam-dep": "Làm đẹp",
-    "phim": "Phim",
-    "giao-duc": "Giáo dục",
-    "ban-tre": "Bạn trẻ",
-    "ca-nhac": "Ca nhạc",
-    "phi-thuong": "Phi thường",
-    "cong-nghe": "Công nghệ",
-    "thi-truong": "Thị trường",
-    "du-lich": "Du lịch",
-    "cuoi": "Cười",
-  }
-
-  const categoryName = categoryMap[category || ""] || ""
+  const categoryName = getCategoryName(category || "") || ""
   
   // If category not found, show error
   if (!categoryName) {
@@ -146,7 +120,7 @@ export default function CategoryPage() {
         <Breadcrumbs
           items={[
             { label: "Trang chủ", href: "/" },
-            { label: categoryName, href: `/${category}` },
+            { label: categoryName, href: `/danh-muc/${category}` },
           ]}
         />
 

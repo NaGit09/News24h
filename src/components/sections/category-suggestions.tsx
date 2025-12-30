@@ -159,7 +159,7 @@ export function CategorySuggestions() {
                     return (
                         <div key={category.slug} className="border-b border-border pb-6 md:border-b-0">
                             <div className="mb-4 border-b-2 border-primary pb-2">
-                                <Link to={`/${category.slug}`}
+                                <Link to={`/danh-muc/${category.slug}`}
                                       className="inline-block text-lg font-bold text-foreground transition-colors hover:text-primary"
                                 >
                                     {category.title}

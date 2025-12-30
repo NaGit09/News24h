@@ -82,7 +82,7 @@ export function CategoryBlock({category, subTags, featured, gridItems, bulletLis
                             {subTags.map((tag, index) => (
                                 <Link
                                     key={index}
-                                    to={`/${tag.toLowerCase().replace(/\s+/g, "-")}`}
+                                    to={`/tu-khoa/${tag.toLowerCase().replace(/\s+/g, "-")}`}
                                     className="text-xs font-medium text-muted-foreground transition-colors hover:text-primary uppercase"
                                 >
                                     {tag}
@@ -91,7 +91,7 @@ export function CategoryBlock({category, subTags, featured, gridItems, bulletLis
                         </div>
                     )}
                 </div>
-                <Link to={`/${category.toLowerCase()}`}
+                <Link to={`/danh-muc/${category.toLowerCase().replace(/\s+/g, '-')}`}
                       className="text-sm font-bold text-primary hover:underline uppercase">
                     Xem thêm →
                 </Link>

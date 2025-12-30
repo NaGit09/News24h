@@ -1,6 +1,7 @@
 import {Link} from "react-router"
 import {useState} from "react"
 import {Menu} from "lucide-react"
+import { getCategorySlug } from "@/lib/category-utils"
 
 const categories = [
     {
@@ -76,16 +77,6 @@ export function MegaMenu({isScrolled = false}: { isScrolled?: boolean }) {
     const [activeMenu, setActiveMenu] = useState<string | null>(null)
     const [showAllCategories, setShowAllCategories] = useState(false)
 
-    const getCategorySlug = (name: string) => {
-        return name
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/đ/g, "d")
-            .replace(/[^a-z0-9\s-]/g, "")
-            .replace(/\s+/g, "-")
-    }
-
     return (
         <div className="bg-muted/30 relative">
             <div className="container mx-auto px-4">
@@ -124,7 +115,7 @@ export function MegaMenu({isScrolled = false}: { isScrolled?: boolean }) {
                                                     {category.items.map((item) => (
                                                         <li key={item}>
                                                             <Link
-                                                                to={`/${category.name.toLowerCase()}/${item.toLowerCase()}`}
+                                                                to={`/danh-muc/${getCategorySlug(category.name)}`}
                                                                 className="text-sm hover:text-primary transition-all duration-300 block relative group pl-2"
                                                             >
                                                                 {item}
@@ -149,7 +140,7 @@ export function MegaMenu({isScrolled = false}: { isScrolled?: boolean }) {
                             onMouseEnter={() => setActiveMenu(category.name)}
                             onMouseLeave={() => setActiveMenu(null)}
                         >
-                            <Link to={`/${getCategorySlug(category.name)}`}
+                            <Link to={`/danh-muc/${getCategorySlug(category.name)}`}
                                   className="px-3 py-2 hover:text-primary transition-all duration-300 whitespace-nowrap relative group block"
                             >
                                 {category.name}
@@ -165,7 +156,7 @@ export function MegaMenu({isScrolled = false}: { isScrolled?: boolean }) {
                                             {category.items.map((item) => (
                                                 <Link
                                                     key={item}
-                                                    to={`/${category.name.toLowerCase()}/${item.toLowerCase()}`}
+                                                    to={`/danh-muc/${getCategorySlug(category.name)}`}
                                                     className="block px-4 py-2.5 text-sm hover:text-primary transition-all duration-300 relative group"
                                                 >
                                                     {item}
