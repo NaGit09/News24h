@@ -6,6 +6,7 @@ export interface CommentState {
     loading: boolean;
     error: string | null;
     selectAuthor: string | null;
+    replyId: string | null;
 }
 
 const initialState: CommentState = {
@@ -13,6 +14,7 @@ const initialState: CommentState = {
     loading: false,
     error: null,
     selectAuthor: null,
+    replyId: null,
 };
 
 export const commentSlice = createSlice({
@@ -29,7 +31,37 @@ export const commentSlice = createSlice({
             state.comments = action.payload;
         },
         addComment(state, action: PayloadAction<Comment>) {
-            state.comments = [action.payload, ...state.comments];
+            if (state.selectAuthor && state.replyId) {
+                const parentCommentIndex = state.comments.findIndex(c => c.id === state.replyId);
+                if (parentCommentIndex !== -1) {
+                    if (!state.comments[parentCommentIndex].replies) {
+                        state.comments[parentCommentIndex].replies = [];
+                    }
+                    state.comments[parentCommentIndex].replies?.push(action.payload);
+                } else {
+                    // Handle case where reply is to a reply (nested) - currently finding top level parent.
+                    // Simple approach: Find if the replyId belongs to a reply, then find its parent.
+                    // For now, assuming 1 level deep nesting or flattening.
+                    // Use a recursive finder or flat map if needed.
+                    // Given the UI, let's look for the parent.
+                    let found = false;
+                    for (const comment of state.comments) {
+                        if (comment.replies) {
+                            const replyIndex = comment.replies.findIndex(r => r.id === state.replyId);
+                            if (replyIndex !== -1) {
+                                comment.replies.push(action.payload);
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!found) {
+                        state.comments = [action.payload, ...state.comments];
+                    }
+                }
+            } else {
+                state.comments = [action.payload, ...state.comments];
+            }
         },
         updateComment(state, action: PayloadAction<Comment>) {
             const index = state.comments.findIndex(c => c.id === action.payload.id);
@@ -43,11 +75,13 @@ export const commentSlice = createSlice({
         clearComments(state) {
             state.comments = [];
         },
-        selectAuthor(state, action: PayloadAction<string>) {
-            state.selectAuthor = action.payload;
+        selectAuthor(state, action: PayloadAction<{ author: string; id: string }>) {
+            state.selectAuthor = action.payload.author;
+            state.replyId = action.payload.id;
         },
         clearSelectAuthor(state) {
             state.selectAuthor = null;
+            state.replyId = null;
         }
     },
 });

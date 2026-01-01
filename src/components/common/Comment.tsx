@@ -6,9 +6,9 @@ import { useDispatch } from "react-redux";
 const CommentDisplay = (props: Comment) => {
   const { id, author, content, publishedAt, likes, replies, avatar } = props;
   const dispatch = useDispatch();
-  const handleSelectReply = (author: string) => {
+  const handleSelectReply = (author: string, id: string) => {
     console.log(author);
-    dispatch(selectAuthor(author));
+    dispatch(selectAuthor({ author, id }));
   };
   return (
     <div key={id} className="space-y-3">
@@ -40,7 +40,7 @@ const CommentDisplay = (props: Comment) => {
               <span>{likes}</span>
             </button>
             <button
-              onClick={() => handleSelectReply(author)}
+              onClick={() => handleSelectReply(author, id)}
               className="flex items-center gap-1 transition-colors hover:text-primary"
             >
               <Reply className="h-3 w-3" />
