@@ -14,7 +14,6 @@ export function NewsCardFeatured({
   title,
   sapo,
   image,
-  category,
   href,
   publishedAt,
 }: NewsCardFeaturedProps) {

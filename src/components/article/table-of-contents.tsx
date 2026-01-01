@@ -32,7 +32,6 @@ export function TableOfContents({ content }: TableOfContentsProps) {
 
     setTocItems(items);
 
-    // Add IDs to actual headings in DOM
     const articleContent = document.querySelector(".article-content");
     let realHeadings: NodeListOf<HTMLHeadingElement> | null = null;
     if (articleContent) {
@@ -42,7 +41,6 @@ export function TableOfContents({ content }: TableOfContentsProps) {
       });
     }
 
-    // Intersection Observer for active heading
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
