@@ -30,6 +30,7 @@ import {
 import { TrendingUp } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
 import { getGoldenPrice } from "@/services/gold-price.service";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 export default function GoldPricePage() {
   const [data, setData] = useState<GoldDataResult | null>(null);
@@ -237,9 +238,7 @@ export default function GoldPricePage() {
         </CardHeader>
         <CardContent>
           {loading ? (
-            <div className="flex justify-center p-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-            </div>
+            <LoadingSpinner />
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">

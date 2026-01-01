@@ -1,18 +1,23 @@
 import { useParams } from "react-router";
+
 import { NewsCardFeatured } from "@/components/news/news-card-featured.tsx";
 import { NewsCardSmall } from "@/components/news/news-card-small.tsx";
-import { SkeletonNewsCardSmall } from "@/components/news/skeleton-news-card.tsx";
-import { CategoryFilterTabs } from "@/components/common/category-filter-tabs.tsx";
+
+import { CategoryFilterTabs } from "@/components/common/CategoryFilterTabs";
+
 import { Breadcrumbs } from "@/components/layout/breadcrumbs.tsx";
+
 import { useState, useEffect, useRef } from "react";
+
 import { useRSSByCategory } from "@/hooks/use-rss";
+
 import { getCategoryName } from "@/constant/categories";
+import Loading from "@/components/common/Loading";
+import NotFound from "./not-found";
+import Reload from "@/components/common/Reload";
 
 export default function CategoryPage() {
   const { category } = useParams<{ category: string }>();
-  const [filter, setFilter] = useState<"latest" | "popular" | "commented">(
-    "latest"
-  );
   const [page, setPage] = useState(1);
   const [displayedNews, setDisplayedNews] = useState<any[]>([]);
   const [hasMore, setHasMore] = useState(true);
@@ -20,27 +25,26 @@ export default function CategoryPage() {
 
   const categoryName = getCategoryName(category || "") || "";
 
-  // If category not found, show error
   if (!categoryName) {
-    return (
-      <div className="bg-background min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-6xl font-bold text-primary mb-4">404</h1>
-          <p className="text-destructive mb-4">
-            Không tìm thấy chuyên mục này.
-          </p>
-          <a
-            href="/"
-            className="px-4 py-2 bg-primary text-primary-foreground rounded inline-block"
-          >
-            Về trang chủ
-          </a>
-        </div>
-      </div>
-    );
+    return <NotFound />;
   }
 
-  const { articles, loading, error } = useRSSByCategory(categoryName);
+  const {
+    articles,
+    loading: rssLoading,
+    error,
+  } = useRSSByCategory(categoryName);
+  const [minimumLoading, setMinimumLoading] = useState(true);
+
+  useEffect(() => {
+    setMinimumLoading(true);
+    const timer = setTimeout(() => {
+      setMinimumLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [category]);
+
+  const loading = rssLoading || minimumLoading;
 
   useEffect(() => {
     if (articles.length > 0) {
@@ -78,37 +82,11 @@ export default function CategoryPage() {
   };
 
   if (loading) {
-    return (
-      <div className="bg-background min-h-screen">
-        <div className="container mx-auto px-4 py-6">
-          <div className="animate-pulse bg-muted h-8 w-64 mb-6 rounded" />
-          <div className="animate-pulse bg-muted h-64 mb-8 rounded" />
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {[...Array(9)].map((_, i) => (
-              <SkeletonNewsCardSmall key={i} />
-            ))}
-          </div>
-        </div>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error) {
-    return (
-      <div className="bg-background min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-destructive mb-4">
-            Không thể tải tin tức. Vui lòng thử lại sau.
-          </p>
-          <button
-            onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-primary text-primary-foreground rounded"
-          >
-            Tải lại
-          </button>
-        </div>
-      </div>
-    );
+    return <Reload />;
   }
 
   const featuredNews = articles[0]
@@ -147,7 +125,7 @@ export default function CategoryPage() {
         </div>
 
         <div className="mb-8">
-          <CategoryFilterTabs onFilterChange={setFilter} />
+          <CategoryFilterTabs onFilterChange={() => {}} />
         </div>
 
         {/* Featured News */}

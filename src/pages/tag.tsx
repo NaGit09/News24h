@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs.tsx";
-import { CategoryFilterTabs } from "@/components/common/category-filter-tabs.tsx";
+import { CategoryFilterTabs } from "@/components/common/CategoryFilterTabs";
 
 export default function TagPage() {
   const { tag } = useParams<{ tag: string }>();
@@ -20,7 +20,6 @@ export default function TagPage() {
       time: "2 giờ trước",
       slug: "gia-vang-sjc-tang",
     },
-    // More articles...
   ];
 
   return (

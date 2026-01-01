@@ -10,7 +10,9 @@ import {
 import type { RootState } from "@/stores/root.store";
 
 export function useArticle(articleUrl: string | undefined) {
+
   const dispatch = useDispatch();
+  
   const { currentArticle, loading, error } = useSelector(
     (state: RootState) => state.article
   );
