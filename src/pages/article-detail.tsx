@@ -163,6 +163,7 @@ export default function ArticlePage() {
 
                 <CategorySuggestions/>
             </div>
+          </aside>
         </div>
 
         <RelatedNewsGrid category={rssArticle.category || "Tin tức"} />
