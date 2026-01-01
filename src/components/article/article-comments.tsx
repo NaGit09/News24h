@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import CommentDisplay from "../common/Comment";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/stores/root.store";
-import {  setComments } from "@/stores/comment.store";
+import { setComments } from "@/stores/comment.store";
 import CommentForm from "../common/CommentForm";
 
 export function ArticleComments() {
