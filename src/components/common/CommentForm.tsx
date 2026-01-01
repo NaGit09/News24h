@@ -1,5 +1,5 @@
 import type { Comment } from "@/constant/comment";
-import { addComment } from "@/stores/comment.store";
+import { addComment, clearSelectAuthor } from "@/stores/comment.store";
 import type { RootState } from "@/stores/root.store";
 import { useRef, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -24,6 +24,10 @@ const CommentForm = () => {
 
   const handleSubmitComment = () => {
     if (!newComment.trim()) return;
+
+    if (selectAuthor) {
+      dispatch(clearSelectAuthor());
+    }
 
     const comment: Comment = {
       id: Date.now().toString(),

@@ -17,7 +17,10 @@ export async function getNewsFeed(
   category: string
 ): Promise<NewsFeed | null> {
   try {
-    const xmlText = await NewsApi(category);
+    const url = getRssUrl(category);
+    if (!url) return null;
+
+    const xmlText = await NewsApi(url);
     const parsed = parseXml(xmlText);
 
     if (!parsed) {
