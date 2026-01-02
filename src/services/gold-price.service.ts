@@ -1,14 +1,28 @@
-import type { GoldDataResult, GoldPrice } from "@/types/gold-price";
 import axiosInstance from "./api.service";
 import * as cheerio from "cheerio";
 
-const url = "https://www.24h.com.vn/gia-vang-hom-nay-c425.html";
+const url = "/api/gia-vang-hom-nay-c425.html";
 
-export const getGoldenPrice = async (): Promise<GoldDataResult | null> => {
+export interface ScrapedGoldItem {
+  name: string;
+  buyToday: string;
+  sellToday: string;
+  buyYesterday: string;
+  sellYesterday: string;
+  change: string;
+}
+
+export interface ScrapedGoldDataResult {
+  updateTime: string;
+  unit: string;
+  prices: ScrapedGoldItem[];
+}
+
+export const getGoldenPrice = async (): Promise<ScrapedGoldDataResult | null> => {
   const html = await axiosInstance.get(url);
   const $ = cheerio.load(html.data);
   try {
-    const prices: GoldPrice[] = [];
+    const prices: ScrapedGoldItem[] = [];
 
     const updateTime = $("header.cate-24h-gold-pri-top p.des em").text().trim();
 

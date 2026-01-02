@@ -1,14 +1,17 @@
 export interface GoldPrice {
-    name: string;
-    buyToday: string;
-    sellToday: string;
-    buyYesterday: string;
-    sellYesterday: string;
-    change: string;
+    buy: number;
+    sell: number;
+    date: string;
 }
 
 export interface GoldDataResult {
     updateTime: string;
     unit: string;
     prices: GoldPrice[];
+}
+
+export interface GoldStoreProps {
+    goldData: GoldPrice[];
+    brand: string;
+    currentDate: string;
 }
