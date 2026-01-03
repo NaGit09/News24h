@@ -5,11 +5,9 @@ import { RSS_CATEGORIES, getRssUrl } from "@/constant/categories.ts";
 import { parseHtml } from "@/lib/html";
 import { parseXml } from "@/lib/xml";
 
-export const NewsApi = async (category: string): Promise<string> => {
-    const response = await axiosInstance.get(`/api/rss/${category}.rss`);
-    return response.data;
-    const response = await axiosInstance.get(`/api/rss/${category}.rss`);
-    return response.data;
+export const NewsApi = async (url: string): Promise<string> => {
+  const response = await axiosInstance.get(url);
+  return response.data;
 };
 
 // get news feed from category
@@ -87,4 +85,3 @@ export async function getAllNews(): Promise<Article[]> {
     (a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()
   );
 }
-
