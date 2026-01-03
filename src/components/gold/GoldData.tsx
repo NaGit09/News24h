@@ -42,7 +42,9 @@ export function GoldTodayYesterdayTable() {
   const brands = useSelector(selectBrands);
 
   const currentDate = useSelector(selectCurrentDate);
+  
   const date = new Date(currentDate);
+
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   const todayDate = format(date, "dd/MM/yyyy");
