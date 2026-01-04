@@ -7,6 +7,7 @@ import { ArticleDisclaimer } from "@/components/article/article-disclaimer.tsx";
 import { ArticleTags } from "@/components/article/article-tags.tsx";
 import { ArticleComments } from "@/components/article/article-comments.tsx";
 import { AuthorProfileCard } from "@/components/article/author-profile-card.tsx";
+import { ShareArticle } from "@/components/article/share-article.tsx";
 
 import { RelatedNewsSidebar } from "@/components/sections/related-news-sidebar.tsx";
 import { RelatedNewsGrid } from "@/components/sections/related-news-grid.tsx";
@@ -130,9 +131,12 @@ export default function ArticlePage() {
                 </p>
               </div>
 
-              <div className="prose prose-lg prose-slate dark:prose-invert max-w-none">
-                <ArticleContent content={articleContent} />
-              </div>
+              <ShareArticle 
+                title={articleTitle} 
+                url={window.location.href} 
+              />
+
+              <ArticleContent content={articleContent} />
 
               <div className="mt-8 flex items-center justify-between rounded-lg border border-border/50 bg-muted/20 p-4">
                 <p className="text-sm font-medium text-muted-foreground">
