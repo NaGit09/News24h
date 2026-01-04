@@ -7,6 +7,7 @@ import { ArticleDisclaimer } from "@/components/article/article-disclaimer.tsx";
 import { ArticleTags } from "@/components/article/article-tags.tsx";
 import { ArticleComments } from "@/components/article/article-comments.tsx";
 import { AuthorProfileCard } from "@/components/article/author-profile-card.tsx";
+import { ShareArticle } from "@/components/article/share-article.tsx";
 
 import { RelatedNewsSidebar } from "@/components/sections/related-news-sidebar.tsx";
 import { RelatedNewsGrid } from "@/components/sections/related-news-grid.tsx";
@@ -119,6 +120,11 @@ export default function ArticlePage() {
                   {articleSapo}
                 </p>
               </div>
+
+              <ShareArticle 
+                title={articleTitle} 
+                url={window.location.href} 
+              />
 
               <ArticleContent content={articleContent} />
 
