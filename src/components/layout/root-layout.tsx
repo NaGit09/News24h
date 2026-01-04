@@ -3,10 +3,13 @@ import {Header} from "@/components/layout/header.tsx";
 import {Footer} from "@/components/layout/footer.tsx";
 import {ReadingProgress} from "@/components/common/ReadingProcess";
 import {ScrollToTop} from "@/components/common/ScrollToTop";
+import {KeyboardShortcutsHelp} from "@/components/common/keyboard-shortcuts-help";
 import {useScrollToTop} from "@/hooks/use-scroll-to-top";
+import {useKeyboardShortcuts} from "@/hooks/use-keyboard-shortcuts";
 
 export const RootLayout = () => {
     useScrollToTop();
+    useKeyboardShortcuts();
     
     return (
         <div className="font-sans antialiased">
@@ -17,6 +20,7 @@ export const RootLayout = () => {
             </main>
             <Footer/>
             <ScrollToTop/>
+            <KeyboardShortcutsHelp/>
             <ScrollRestoration/>
         </div>
     );
