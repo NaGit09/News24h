@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { useState } from "react";
+import { formatRelativeTime } from "@/lib/time";
 
 interface NewsCardSmallProps {
   title: string;
@@ -36,7 +37,9 @@ export function NewsCardSmall(props: NewsCardSmallProps) {
               {sapo}
             </p>
           )}
-          <time className="text-xs text-muted-foreground">{publishedAt}</time>
+          <time className="text-xs text-muted-foreground">
+            {formatRelativeTime(publishedAt)}
+          </time>
         </div>
       </article>
     </Link>
