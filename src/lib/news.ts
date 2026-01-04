@@ -60,11 +60,27 @@ export const dataSample = (articles: Article[]) => {
         views: `${Math.floor(Math.random() * 100 + 50)}K`,
     }));
 
+    const footballNews = articles.slice(21, 26).map((article, _) => ({
+        title: article.title,
+        image:
+            article.image && article.image.trim() !== ""
+                ? article.image
+                : "/placeholder.svg",
+        href: `/bai-viet/${article.guid}`,
+        publishedAt: new Date(article.pubDate).toLocaleString("vi-VN", {
+            hour: "2-digit",
+            minute: "2-digit",
+            day: "2-digit",
+            month: "2-digit",
+        }),
+    }));
+
     return {
         heroNews,
         smallNews,
         newsStackItems,
         trendingNews,
+        footballNews,
         homeCategoryBlocks,
     };
 }
