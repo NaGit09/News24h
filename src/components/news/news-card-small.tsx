@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { useState } from "react";
+import { ImageWithFallback } from "@/components/common/image-with-fallback";
 import { formatRelativeTime } from "@/lib/time";
 
 interface NewsCardSmallProps {
@@ -14,18 +14,14 @@ export function NewsCardSmall(props: NewsCardSmallProps) {
     
   const { title, sapo, image, href, publishedAt } = props;
 
-  const [imgError, setImgError] = useState(false);
-
   return (
     <Link to={href} className="group">
       <article className="flex gap-3 py-3 border-b border-border/50 last:border-0 transition-all hover:bg-accent/5">
         <div className="relative h-20 w-28 shrink-0 overflow-hidden bg-muted">
-          <img
-            src={imgError ? "/placeholder.svg" : image}
+          <ImageWithFallback
+            src={image}
             alt={title}
-            loading="lazy"
             className="object-cover transition-transform duration-300 group-hover:scale-105 w-full h-full"
-            onError={() => setImgError(true)}
           />
         </div>
         <div className="flex-1">
