@@ -1,13 +1,13 @@
 import { NewsCardFeatured } from "@/components/news/news-card-featured.tsx";
 import { NewsCardSmall } from "@/components/news/news-card-small.tsx";
 import { NewsStack } from "@/components/news/news-stack.tsx";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { SportWidget } from "@/components/widgets/sport-widget.tsx";
 
+import { BreakingNewsBanner } from "@/components/sections/breaking-news-banner.tsx";
 import { CategoryBlock } from "@/components/sections/category-block.tsx";
 import { SidebarTrending } from "@/components/sections/sidebar-trending.tsx";
-import { BreakingNewsBanner } from "@/components/sections/breaking-news-banner.tsx";
 
 import { useRSSFeeds } from "@/hooks/use-rss";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
@@ -17,7 +17,7 @@ import { dataSample } from "@/lib/news";
 
 export default function HomePage() {
   const { articles, loading: rssLoading, error } = useRSSFeeds();
-  const [minimumLoading, setMinimumLoading] = useState(true);
+  const [minimumLoading, setMinimumLoading] = useState(true);  
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -41,6 +41,7 @@ export default function HomePage() {
     smallNews,
     newsStackItems,
     trendingNews,
+    footballNews,
     homeCategoryBlocks,
   } = dataSample(articles);
 
@@ -80,6 +81,15 @@ export default function HomePage() {
             <SidebarTrending items={trendingNews} />
           </div>
         </div>
+
+        {/* Football */}
+
+        <CategoryBlock
+          category="Bóng đá"
+          subTags={["Champions League", "Premier League", "La Liga", "Serie A", "Ligue 1"]}
+          featured={footballNews[0]}
+          gridItems={footballNews}
+        />
 
         {homeCategoryBlocks.map((block, index) => (
           <CategoryBlock
