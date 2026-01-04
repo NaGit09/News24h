@@ -8,6 +8,7 @@ import { ArticleTags } from "@/components/article/article-tags.tsx";
 import { ArticleComments } from "@/components/article/article-comments.tsx";
 import { AuthorProfileCard } from "@/components/article/author-profile-card.tsx";
 import { ShareArticle } from "@/components/article/share-article.tsx";
+import { PrintHeader } from "@/components/article/print-header.tsx";
 
 import { RelatedNewsSidebar } from "@/components/sections/related-news-sidebar.tsx";
 import { RelatedNewsGrid } from "@/components/sections/related-news-grid.tsx";
@@ -96,6 +97,13 @@ export default function ArticlePage() {
         <div className="grid gap-8 lg:grid-cols-12 xl:grid-cols-10">
           <div className="lg:col-span-9 xl:col-span-7">
             <Breadcrumbs items={breadcrumbs} />
+
+            <PrintHeader
+              title={articleTitle}
+              author={authorInfo.name}
+              publishedAt={new Date(rssArticle.pubDate).toLocaleString("vi-VN")}
+              url={window.location.href}
+            />
 
             <article className="mt-4">
               <h1 className="text-pretty text-3xl font-extrabold leading-tight text-foreground lg:text-4xl">
