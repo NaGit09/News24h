@@ -1,4 +1,36 @@
 /**
+ * Calculate estimated reading time based on text content
+ * @param text - The text content to analyze
+ * @param wordsPerMinute - Average reading speed (default: 200 words per minute)
+ * @returns Estimated reading time in minutes
+ */
+export function calculateReadingTime(text: string, wordsPerMinute: number = 200): number {
+  if (!text) return 0;
+  
+  // Remove HTML tags
+  const plainText = text.replace(/<[^>]*>/g, '');
+  
+  // Count words (split by whitespace and filter empty strings)
+  const wordCount = plainText.trim().split(/\s+/).filter(word => word.length > 0).length;
+  
+  // Calculate reading time in minutes
+  const readingTime = Math.ceil(wordCount / wordsPerMinute);
+  
+  return readingTime;
+}
+
+/**
+ * Format reading time to Vietnamese string
+ * @param minutes - Reading time in minutes
+ * @returns Formatted reading time string
+ */
+export function formatReadingTime(minutes: number): string {
+  if (minutes < 1) return "< 1 phút đọc";
+  if (minutes === 1) return "1 phút đọc";
+  return `${minutes} phút đọc`;
+}
+
+/**
  * Format a date string to relative time (e.g., "2 phút trước", "3 giờ trước")
  * @param dateString - ISO date string or any valid date format
  * @returns Formatted relative time string in Vietnamese

@@ -2,6 +2,7 @@ import {
   Bookmark,
   Calendar,
   Check,
+  Clock,
   Eye,
   Facebook,
   LinkIcon,
@@ -13,7 +14,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button.tsx";
 import { FontSizeAdjuster } from "@/components/widgets/font-size-adjuster.tsx";
-import { useEffect, useState, useRef, useCallback, memo } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { calculateReadingTime, formatReadingTime } from "@/lib/time";
 
 interface ArticleMetaProps {
   author: string;
@@ -23,31 +25,21 @@ interface ArticleMetaProps {
   shareCount?: number;
 }
 
-// Simple beep to verifying audio context works
-const playTestSound = () => {
-  try {
-    const audio = new Audio(
-      "https://actions.google.com/sounds/v1/alarms/beep_short.ogg"
-    );
-    audio.play().catch((e) => console.error("Test sound failed", e));
-  } catch (err) {
-    console.error("Audio object error", err);
-  }
-};
+export function ArticleMeta({
+  author,
+  publishedAt,
+  articleContent,
+  viewCount = 4532,
+  shareCount = 342,
+}: ArticleMetaProps) {
+  const [isSaved, setIsSaved] = useState(false);
+  const [isReading, setIsReading] = useState(false);
+  const [localShareCount, setLocalShareCount] = useState(shareCount);
 
-const ArticleMeta = memo(
-  ({
-    author,
-    publishedAt,
-    articleContent,
-    viewCount = 4532,
-    shareCount = 342,
-  }: ArticleMetaProps) => {
-    const [isSaved, setIsSaved] = useState(false);
-    const [isReading, setIsReading] = useState(false);
-    const [localShareCount, setLocalShareCount] = useState(shareCount);
-    const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
-    const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const readingTime = useMemo(() => {
+    if (!articleContent) return 0;
+    return calculateReadingTime(articleContent);
+  }, [articleContent]);
 
     useEffect(() => {
       if (typeof window !== "undefined") {
@@ -221,26 +213,32 @@ const ArticleMeta = memo(
       }
     }, [isSaved]);
 
-    return (
-      <div className="mt-4 border-y border-border py-4">
-        <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-          <div className="flex items-center gap-2">
-            <User className="h-4 w-4" />
-            <span className="font-medium text-foreground">{author}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Calendar className="h-4 w-4" />
-            <span>{publishedAt}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Eye className="h-4 w-4" />
-            <span>{viewCount.toLocaleString()} lượt xem</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Share2 className="h-4 w-4" />
-            <span>{localShareCount} lượt chia sẻ</span>
-          </div>
+  return (
+    <div className="mt-4 border-y border-border py-4">
+      <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+        <div className="flex items-center gap-2">
+          <User className="h-4 w-4" />
+          <span className="font-medium text-foreground">{author}</span>
         </div>
+        <div className="flex items-center gap-2">
+          <Calendar className="h-4 w-4" />
+          <span>{publishedAt}</span>
+        </div>
+        {readingTime > 0 && (
+          <div className="flex items-center gap-2">
+            <Clock className="h-4 w-4" />
+            <span>{formatReadingTime(readingTime)}</span>
+          </div>
+        )}
+        <div className="flex items-center gap-2">
+          <Eye className="h-4 w-4" />
+          <span>{viewCount.toLocaleString()} lượt xem</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Share2 className="h-4 w-4" />
+          <span>{localShareCount} lượt chia sẻ</span>
+        </div>
+      </div>
 
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <Button
