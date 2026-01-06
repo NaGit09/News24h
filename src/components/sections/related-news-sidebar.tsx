@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { useEffect, useState } from "react";
+
 import { Clock, TrendingUp } from "lucide-react";
 
 interface RelatedNewsSidebarProps {
@@ -7,16 +7,6 @@ interface RelatedNewsSidebarProps {
 }
 
 export function RelatedNewsSidebar(_: RelatedNewsSidebarProps) {
-  const [isSticky, setIsSticky] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsSticky(window.scrollY > 200);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   const relatedNews = [
     {
       title: "Giá USD tăng mạnh, tác động đến thị trường vàng trong nước",
@@ -59,21 +49,17 @@ export function RelatedNewsSidebar(_: RelatedNewsSidebarProps) {
   ];
 
   return (
-    <div className={`space-y-8 ${isSticky ? "lg:sticky lg:top-20" : ""}`}>
+    <div className="space-y-6">
       {/* Tin liên quan */}
-      <div className="border-t-2 border-primary pt-4">
-        <h3 className="mb-4 flex items-center text-sm font-bold uppercase tracking-wider text-foreground">
+      <div className="rounded-xl border border-border/50 bg-card shadow-sm p-4">
+        <h3 className="mb-4 flex items-center text-sm font-bold uppercase tracking-wider text-primary border-b pb-2">
           <Clock className="mr-2 h-4 w-4" />
           Tin liên quan
         </h3>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {relatedNews.map((news, index) => (
-            <Link
-              key={index}
-              to={news.href}
-              className="group block border-b border-border pb-3 last:border-0"
-            >
-              <h4 className="mb-1 line-clamp-3 text-sm font-semibold leading-tight text-foreground transition-colors group-hover:text-primary">
+            <Link key={index} to={news.href} className="group block">
+              <h4 className="mb-1 line-clamp-3 text-sm font-semibold leading-relaxed text-foreground/90 transition-colors group-hover:text-primary">
                 {news.title}
               </h4>
               <span className="text-xs text-muted-foreground">
@@ -85,24 +71,20 @@ export function RelatedNewsSidebar(_: RelatedNewsSidebarProps) {
       </div>
 
       {/* Đọc nhiều nhất */}
-      <div className="border-t-2 border-primary pt-4">
-        <h3 className="mb-4 flex items-center text-sm font-bold uppercase tracking-wider text-foreground">
+      <div className="rounded-xl border border-border/50 bg-card shadow-sm p-4">
+        <h3 className="mb-4 flex items-center text-sm font-bold uppercase tracking-wider text-primary border-b pb-2">
           <TrendingUp className="mr-2 h-4 w-4" />
           Đọc nhiều nhất
         </h3>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {mostRead.map((news, index) => (
-            <Link
-              key={index}
-              to={news.href}
-              className="group block border-b border-border pb-3 last:border-0"
-            >
+            <Link key={index} to={news.href} className="group block">
               <div className="flex gap-3">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-primary text-xs font-bold text-primary-foreground">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
                   {index + 1}
                 </span>
                 <div className="flex-1">
-                  <h4 className="mb-1 line-clamp-2 text-sm font-semibold leading-tight text-foreground transition-colors group-hover:text-primary">
+                  <h4 className="mb-1 line-clamp-2 text-sm font-semibold leading-relaxed text-foreground/90 transition-colors group-hover:text-primary">
                     {news.title}
                   </h4>
                   <span className="text-xs text-muted-foreground">

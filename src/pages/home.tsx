@@ -10,7 +10,7 @@ import { SidebarTrending } from "@/components/sections/sidebar-trending.tsx";
 import { BreakingNewsBanner } from "@/components/sections/breaking-news-banner.tsx";
 
 import { useRSSFeeds } from "@/hooks/use-rss";
-import Loading from "@/components/common/Loading";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 import Reload from "@/components/common/Reload";
 
 import { dataSample } from "@/lib/news";
@@ -29,14 +29,13 @@ export default function HomePage() {
   const loading = rssLoading || minimumLoading;
 
   if (loading) {
-    return <Loading />;
+    return <LoadingSpinner />;
   }
 
   if (error) {
     return <Reload />;
   }
 
-  // Transform RSS articles to component props
   const {
     heroNews,
     smallNews,
