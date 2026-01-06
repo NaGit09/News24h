@@ -24,7 +24,7 @@ import { useArticle } from "@/hooks/use-article";
 import { useEffect, useState } from "react";
 import type { Article } from "@/types/news";
 import { authorInfo } from "@/constant/author";
-import Loading from "@/components/common/Loading";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 import NotFound from "./not-found";
 import { cleanArticleContent } from "@/lib/clean";
 
@@ -44,11 +44,9 @@ export default function ArticlePage() {
 
   useEffect(() => {
     if (articles.length > 0 && slug) {
-      // Clean slug from url extension if present
       const cleanSlug = slug.replace(/\.(html|chn)$/, "");
 
       const foundArticle = articles.find((a) => {
-        // Ensure comparison is consistent
         const cleanGuid = a.guid.replace(/\.(html|chn)$/, "");
         return cleanGuid === cleanSlug;
       });
@@ -74,7 +72,7 @@ export default function ArticlePage() {
   const loading = rssLoading || articleLoading || minimumLoading;
 
   if (loading) {
-    return <Loading />;
+    return <LoadingSpinner />;
   }
 
   if (articleError || !rssArticle || !fullArticle) {
@@ -95,14 +93,18 @@ export default function ArticlePage() {
     cleanArticleContent(rssArticle, fullArticle);
 
   return (
-    <div className="bg-background">
-      <div className="container mx-auto px-4 py-6">
-        <div className="grid gap-8 lg:grid-cols-12 xl:grid-cols-10">
-          <div className="lg:col-span-9 xl:col-span-7">
-            <Breadcrumbs items={breadcrumbs} />
+    <div className="min-h-screen bg-muted/10 pb-12">
+      <div className="bg-background border-b mb-8">
+        <div className="container mx-auto px-4 py-4">
+          <Breadcrumbs items={breadcrumbs} />
+        </div>
+      </div>
 
-            <article className="mt-4">
-              <h1 className="text-pretty text-3xl font-extrabold leading-tight text-foreground lg:text-4xl">
+      <div className="container mx-auto px-4">
+        <div className="grid gap-8 lg:grid-cols-12 xl:grid-cols-12">
+          <main className="lg:col-span-8 xl:col-span-9 space-y-8">
+            <article className="rounded-xl border border-border/50 bg-card p-6 shadow-sm hover:shadow-md transition-shadow duration-300 md:p-8 lg:p-10">
+              <h1 className="mb-6 text-pretty text-3xl font-bold tracking-tight text-foreground lg:text-4xl lg:leading-[1.2]">
                 {articleTitle}
               </h1>
 
@@ -122,43 +124,60 @@ export default function ArticlePage() {
                 articleContent={plainTextContent}
               />
 
-              <div className="my-6 border-l-4 border-primary bg-muted/30 py-4 pl-6 pr-4">
-                <p className="text-pretty text-base font-semibold leading-relaxed text-foreground/90 lg:text-lg">
+              <div className="my-8 rounded-lg border-l-4 border-primary bg-primary/5 p-6 shadow-inner">
+                <p className="font-sans text-lg font-medium leading-relaxed text-foreground/90 lg:text-xl">
                   {articleSapo}
                 </p>
               </div>
 
-              <ArticleContent content={articleContent} />
+              <div className="prose prose-lg prose-slate dark:prose-invert max-w-none">
+                <ArticleContent content={articleContent} />
+              </div>
 
-              <div className="my-6 p-4 bg-muted/30 rounded">
-                <p className="text-sm text-muted-foreground">
+              <div className="mt-8 flex items-center justify-between rounded-lg border border-border/50 bg-muted/20 p-4">
+                <p className="text-sm font-medium text-muted-foreground">
                   Nguồn:{" "}
                   <a
                     href={rssArticle.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary hover:underline font-medium"
+                    className="text-primary transition-colors hover:text-primary/80 hover:underline"
                   >
                     24h.com.vn
                   </a>
                 </p>
               </div>
 
-              <AuthorProfileCard {...authorInfo} />
+              <div className="mt-10 border-t pt-8">
+                <AuthorProfileCard {...authorInfo} />
+              </div>
 
-              <NewsletterSubscription />
+              <div className="mt-8">
+                <NewsletterSubscription />
+              </div>
 
               <ArticleDisclaimer />
 
-              <ArticleTags tags={[rssArticle.category || "Tin tức"]} />
+              <div className="mt-8">
+                <ArticleTags tags={[rssArticle.category || "Tin tức"]} />
+              </div>
 
-              <ArticleComments />
+              <div className="mt-10">
+                <ArticleComments />
+              </div>
             </article>
-          </div>
 
-          <aside className="lg:col-span-3 xl:col-span-3">
-            <div className="sticky top-24 space-y-6 max-h-[calc(100vh-120px)] overflow-y-auto">
-              <TableOfContents content={articleContent} />
+            <RelatedNewsGrid category={rssArticle.category || "Tin tức"} />
+          </main>
+
+          <aside className="lg:col-span-4 xl:col-span-3">
+            <div className="sticky top-24 space-y-6">
+              <div className="rounded-xl border border-border/50 bg-card shadow-sm">
+                <div className="p-4 font-semibold border-b">Mục lục</div>
+                <div className="max-h-[60vh] overflow-y-auto p-2">
+                  <TableOfContents content={articleContent} />
+                </div>
+              </div>
 
               <RelatedNewsSidebar category={rssArticle.category || "Tin tức"} />
 
@@ -167,9 +186,9 @@ export default function ArticlePage() {
           </aside>
         </div>
 
-        <RelatedNewsGrid category={rssArticle.category || "Tin tức"} />
-
-        <CategorySuggestions />
+        <div className="mt-12">
+          <CategorySuggestions />
+        </div>
       </div>
     </div>
   );

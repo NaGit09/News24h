@@ -30,12 +30,12 @@ export function ArticleMeta({
   viewCount = 4532,
   shareCount = 342,
 }: ArticleMetaProps) {
+  
   const [isSaved, setIsSaved] = useState(false);
   const [isReading, setIsReading] = useState(false);
   const [localShareCount, setLocalShareCount] = useState(shareCount);
 
   useEffect(() => {
-    // Load bookmark status from localStorage
     if (typeof window !== "undefined") {
       const bookmarks = localStorage.getItem("bookmarks");
       if (bookmarks) {

@@ -7,7 +7,6 @@ const CommentDisplay = (props: Comment) => {
   const { id, author, content, publishedAt, likes, replies, avatar } = props;
   const dispatch = useDispatch();
   const handleSelectReply = (author: string, id: string) => {
-    console.log(author);
     dispatch(selectAuthor({ author, id }));
   };
   return (

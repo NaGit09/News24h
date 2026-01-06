@@ -23,11 +23,11 @@ export function DayDetailPanel({
   onAddEvent,
   onDeleteEvent,
 }: DayDetailPanelProps) {
+
   const [newEventTitle, setNewEventTitle] = useState("");
   const [newEventTime, setNewEventTime] = useState("09:00");
   const [isHovered, setIsHovered] = useState<string | null>(null);
 
-  // Reset form when date changes
   useEffect(() => {
     setNewEventTitle("");
     setNewEventTime("09:00");
@@ -54,6 +54,7 @@ export function DayDetailPanel({
           )}
         </CardTitle>
       </CardHeader>
+      
       <CardContent className="space-y-8">
         {/* Date Info Detailed */}
         {date &&

@@ -1,15 +1,6 @@
 import React, { useMemo } from "react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
-} from "recharts";
-import { format } from "date-fns";
+import Highcharts from "highcharts/highstock";
+import HighchartsReact from "highcharts-react-official";
 import type { StockData } from "@/types/stock";
 
 interface StockChartProps {
@@ -17,110 +8,180 @@ interface StockChartProps {
 }
 
 const StockChart: React.FC<StockChartProps> = ({ data }) => {
-  // Sort data by date
-  const sortedData = useMemo(() => {
-    return [...data].sort(
+  const chartOptions = useMemo(() => {
+    const sortedData = [...data].sort(
       (a, b) =>
         new Date(a.ex_dividend_date).getTime() -
         new Date(b.ex_dividend_date).getTime()
     );
+
+    const seriesData = sortedData.map((item) => ({
+      x: new Date(item.ex_dividend_date).getTime(),
+      y: item.cash_amount,
+      name: item.ticker,
+      ...item,
+    }));
+
+    const options: Highcharts.Options = {
+      chart: {
+        backgroundColor: "transparent",
+        style: {
+          fontFamily: "Inter, sans-serif",
+        },
+        height: 500,
+      },
+      rangeSelector: {
+        selected: 4, // All
+        inputEnabled: false,
+        buttonTheme: {
+          fill: "none",
+          stroke: "none",
+          "stroke-width": 0,
+          r: 8,
+          style: {
+            color: "#6b7280",
+            fontWeight: "bold",
+          },
+          states: {
+            hover: {
+              fill: "#f3f4f6", // gray-100
+              style: {
+                color: "#1f2937",
+              },
+            },
+            select: {
+              fill: "#eff6ff", // blue-50
+              style: {
+                color: "#3b82f6", // blue-500
+              },
+            },
+          },
+        },
+      },
+      title: {
+        text: "",
+      },
+      yAxis: {
+        title: {
+          text: "Số tiền cổ tức",
+        },
+        labels: {
+          format: "${value:.2f}",
+          style: {
+            color: "#9ca3af",
+          },
+        },
+        gridLineColor: "#f3f4f6",
+      },
+      xAxis: {
+        type: "datetime",
+        labels: {
+          style: {
+            color: "#9ca3af",
+          },
+        },
+        lineColor: "#e5e7eb",
+        tickColor: "#e5e7eb",
+      },
+      tooltip: {
+        shared: true,
+        useHTML: true,
+        backgroundColor: "rgba(255, 255, 255, 0.95)",
+        borderColor: "#e5e7eb",
+        borderRadius: 12,
+        shadow: true,
+        padding: 12,
+        headerFormat:
+          '<span style="font-size: 10px; color: #6b7280">{point.key}</span><br/>',
+        pointFormatter: function () {
+          const point = this as any;
+          return `
+            <div style="margin-top: 4px;">
+              <span style="color: ${
+                point.color
+              }; font-size: 14px; font-weight: bold;">●</span>
+              <span style="font-weight: 600; color: #1f2937;">${
+                point.name
+              }:</span>
+              <span style="font-weight: bold; color: #111827;">$${point.y.toFixed(
+                2
+              )}</span>
+              <br/>
+              <span style="font-size: 11px; color: #6b7280;">Ngày trả: ${
+                point.pay_date
+              }</span>
+            </div>
+          `;
+        },
+      },
+      plotOptions: {
+        series: {
+          borderWidth: 0,
+          dataGrouping: {
+            enabled: true,
+            units: [
+              ["week", [1]],
+              ["month", [1, 3, 6]],
+              ["year", null],
+            ],
+          },
+        },
+        column: {
+          borderRadius: 4,
+        },
+      },
+      navigator: {
+        enabled: true,
+        maskFill: "rgba(59, 130, 246, 0.1)",
+        series: {
+          color: "#3b82f6",
+          fillOpacity: 0.1,
+        },
+        xAxis: {
+          gridLineColor: "#f0f0f0",
+        },
+      },
+      scrollbar: {
+        enabled: false,
+      },
+      credits: {
+        enabled: false,
+      },
+      series: [
+        {
+          type: "column",
+          name: "Cổ tức",
+          data: seriesData,
+          color: {
+            linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+            stops: [
+              [0, "#3b82f6"], // Blue-500
+              [1, "#93c5fd"], // Blue-300
+            ],
+          },
+          threshold: null,
+        },
+      ],
+    };
+    return options;
   }, [data]);
 
   if (data.length === 0) return null;
 
-  // Format date for display
-  const formatDate = (dateStr: string) => {
-    try {
-      return format(new Date(dateStr), "MMM dd, yyyy");
-    } catch {
-      return dateStr;
-    }
-  };
-
   return (
     <div className="w-full bg-white rounded-xl shadow-sm border border-gray-100 p-6">
       <div className="mb-6">
-        <h3 className="text-lg font-semibold text-gray-800">
-          Dividend History
-        </h3>
-        <p className="text-sm text-gray-500">Cash amount payouts over time</p>
+        <h3 className="text-lg font-semibold text-gray-800">Lịch sử Cổ tức</h3>
+        <p className="text-sm text-gray-500">
+          Lịch sử chi trả cổ tức và xu hướng
+        </p>
       </div>
-
-      <div className="h-[400px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={sortedData}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 0,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid
-              strokeDasharray="3 3"
-              vertical={false}
-              stroke="#e5e7eb"
-            />
-            <XAxis
-              dataKey="ex_dividend_date"
-              tickFormatter={(value) => {
-                try {
-                  return format(new Date(value), "yyyy");
-                } catch {
-                  return value;
-                }
-              }}
-              minTickGap={30}
-              tickLine={false}
-              axisLine={false}
-              tick={{ fill: "#6b7280", fontSize: 12 }}
-            />
-            <YAxis
-              tick={{ fill: "#6b7280", fontSize: 12 }}
-              tickLine={false}
-              axisLine={false}
-              tickFormatter={(value) => `$${value}`}
-            />
-            <Tooltip
-              cursor={{ fill: "#f3f4f6" }}
-              content={({ active, payload, label }) => {
-                if (active && payload && payload.length) {
-                  const item = payload[0].payload as StockData;
-                  return (
-                    <div className="bg-white p-3 border border-gray-100 shadow-xl rounded-lg">
-                      <p className="text-sm font-semibold text-gray-800 mb-1">
-                        {formatDate(label)}
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-                        <span className="text-sm text-gray-600">Amount:</span>
-                        <span className="text-sm font-bold text-gray-900">
-                          {item.cash_amount} {item.currency}
-                        </span>
-                      </div>
-                      <div className="mt-1 text-xs text-gray-400">
-                        {item.ticker}
-                      </div>
-                    </div>
-                  );
-                }
-                return null;
-              }}
-            />
-            <Bar dataKey="cash_amount" radius={[4, 4, 0, 0]}>
-              {sortedData.map((_, index) => (
-                <Cell key={`cell-${index}`} fill="url(#colorGradient)" />
-              ))}
-            </Bar>
-            <defs>
-              <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#3b82f6" stopOpacity={1} />
-                <stop offset="100%" stopColor="#60a5fa" stopOpacity={0.8} />
-              </linearGradient>
-            </defs>
-          </BarChart>
-        </ResponsiveContainer>
+      <div className="w-full rounded-lg overflow-hidden">
+        <HighchartsReact
+          highcharts={Highcharts}
+          constructorType={"stockChart"}
+          options={chartOptions}
+        />
       </div>
     </div>
   );

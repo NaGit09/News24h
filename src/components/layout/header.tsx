@@ -1,15 +1,34 @@
 import { Link } from "react-router";
-import { useEffect, useState } from "react";
-import { Cloud, Menu, Moon, Search, Sun, TrendingUp, User } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { LiveNewsTicker } from "../widgets/live-news-ticker.tsx";
 import { MegaMenu } from "./mega-menu.tsx";
 import { SearchOverlay } from "../widgets/search-overlay.tsx";
+import {
+  TrendingUpIcon,
+  type TrendingUpIconHandle,
+} from "../ui/trending-up.tsx";
+import {
+  CalendarDaysIcon,
+  type CalendarDaysIconHandle,
+} from "../ui/calendar-days.tsx";
+import { CloudSunIcon, type CloudSunIconHandle } from "../ui/cloud-sun.tsx";
+import { MoonIcon } from "../ui/moon.tsx";
+import { SunIcon } from "../ui/sun.tsx";
+import { SearchIcon } from "../ui/search.tsx";
+import { UserIcon } from "../ui/user.tsx";
+import { MenuIcon } from "../ui/menu.tsx";
+import { ChartLineIcon, type ChartLineIconHandle } from "../ui/chart-line.tsx";
 
 export function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const calendarRef = useRef<CalendarDaysIconHandle>(null);
+  const weatherRef = useRef<CloudSunIconHandle>(null);
+  const goldRef = useRef<TrendingUpIconHandle>(null);
+  const chartRef = useRef<ChartLineIconHandle>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,8 +68,11 @@ export function Header() {
                 <div className="flex items-center gap-4 text-muted-foreground">
                   <Link
                     to="/lich-van-nien"
-                    className="hidden md:inline hover:text-primary transition-colors"
+                    className="hidden md:inline-flex items-center gap-1 hover:text-primary transition-colors"
+                    onMouseEnter={() => calendarRef.current?.startAnimation()}
+                    onMouseLeave={() => calendarRef.current?.stopAnimation()}
                   >
+                    <CalendarDaysIcon ref={calendarRef} size={18} />
                     {new Date().toLocaleDateString("vi-VN", {
                       weekday: "long",
                       day: "numeric",
@@ -61,18 +83,31 @@ export function Header() {
                   <Link
                     to="/thoi-tiet"
                     className="hidden md:flex items-center gap-1 hover:text-primary transition-colors"
+                    onMouseEnter={() => weatherRef.current?.startAnimation()}
+                    onMouseLeave={() => weatherRef.current?.stopAnimation()}
                   >
-                    <Cloud className="h-3 w-3" />
+                    <CloudSunIcon ref={weatherRef} size={18} />
                     <span>Hà Nội 18°C</span>
                   </Link>
                   <Link
                     to="/gia-vang"
-                    className="flex items-center gap-1 hover:text-accent transition-colors"
+                    className="flex items-center gap-1 hover:text-primary transition-colors"
+                    onMouseEnter={() => goldRef.current?.startAnimation()}
+                    onMouseLeave={() => goldRef.current?.stopAnimation()}
                   >
-                    <TrendingUp className="h-3 w-3" />
-                    <span className="text-accent font-medium">
+                    <TrendingUpIcon ref={goldRef} size={18} />
+                    <span className="text-primary font-medium">
                       Vàng SJC 82.5tr
                     </span>
+                  </Link>
+                  <Link
+                    to="/chung-khoan"
+                    className="flex items-center gap-1 hover:text-accent transition-colors"
+                    onMouseEnter={() => chartRef.current?.startAnimation()}
+                    onMouseLeave={() => chartRef.current?.stopAnimation()}
+                  >
+                    <ChartLineIcon ref={chartRef} size={18} />
+                    <span className="font-medium">Chứng khoán</span>
                   </Link>
                 </div>
 
@@ -82,30 +117,26 @@ export function Header() {
                     className="p-1 rounded hover:bg-muted transition-colors"
                     aria-label="Toggle dark mode"
                   >
-                    {isDark ? (
-                      <Sun className="h-3.5 w-3.5" />
-                    ) : (
-                      <Moon className="h-3.5 w-3.5" />
-                    )}
+                    {isDark ? <SunIcon size={18} /> : <MoonIcon size={18} />}
                   </button>
                   <button
                     onClick={() => setIsSearchOpen(true)}
                     className="p-1 rounded hover:bg-muted transition-colors"
                     aria-label="Search"
                   >
-                    <Search className="h-3.5 w-3.5" />
+                    <SearchIcon size={18} />
                   </button>
                   <button
                     className="p-1 rounded hover:bg-muted transition-colors"
                     aria-label="User menu"
                   >
-                    <User className="h-3.5 w-3.5" />
+                    <UserIcon size={18} />
                   </button>
                   <button
                     className="lg:hidden p-1"
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                   >
-                    <Menu className="h-4 w-4" />
+                    <MenuIcon size={18} />
                   </button>
                 </div>
               </div>
