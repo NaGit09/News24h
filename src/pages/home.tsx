@@ -11,7 +11,6 @@ import { SidebarTrending } from "@/components/sections/sidebar-trending.tsx";
 
 import Loading from "@/components/common/Loading";
 import Reload from "@/components/common/Reload";
-import { useRSSFeeds } from "@/hooks/use-rss";
 
 import { dataSample } from "@/lib/news";
 
