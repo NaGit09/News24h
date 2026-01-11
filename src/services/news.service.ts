@@ -44,7 +44,6 @@ export async function getFullArticle(
 ): Promise<ArticleDetail | null> {
   try {
     let requestUrl = url;
-    // Handle 24h.com.vn URLs via proxy
     if (url.includes('24h.com.vn')) {
       requestUrl = url.replace(/^(https?:)?\/\/www\.24h\.com\.vn\//, '/api/');
     }

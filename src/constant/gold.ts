@@ -1219,4 +1219,72 @@ export function randomWithTrendSwitch(
   return result;
 }
 
+// Relation gold price with news
+export const RelationGoldPriceWithNews = [
+  {
+    thumbnail: "https://cdn.24h.com.vn/upload/1-2026/images/2026-01-04//adt1767538779-gia-vang-lap-dinh-trung-quoc-theo-du__anh_cat_3_2.png",
+    title: "Giá vàng lập đỉnh, Trung Quốc theo đuổi chiến lược tích trữ dài hạn",
+    content: "TRUNG QUỐC - Là nền kinh tế lớn thứ hai thế giới, Trung Quốc là một trong những nước mua vàng tích cực và có chiến lược nhất, tạo ảnh hưởng sâu rộng đến thị trường kim loại quý toàn cầu và lộ trình tái cấu trúc dự trữ ngoại hối quốc gia.",
+    link: "/gia-vang-lap-dinh-trung-quoc-theo-duoi-chien-luoc-tich-tru-dai-han-c161a1726975.html",
+    source: "24h.com.vn",
+  },
+  {
+    thumbnail: "https://cdn.24h.com.vn/upload/1-2026/images/2026-01-04/255x170/adt1767538971-gia-vang-bien-dong-manh-cac-yeu-to-t__anh_cat_3_2.jpg",
+    title: "Giá vàng rung lắc mạnh, các yếu tố tác động hình thành ngay đầu năm mới",
+    content: "Giá vàng, bạc tăng mạnh ngay trong đầu năm mới 2026 nhưng cũng nhanh chóng lao dốc trước áp lực chốt lời. Giá vàng miếng SJC và vàng nhẫn vẫn ở mức cuối năm trước, từ 152-155 triệu đồng/lượng.",
+    link: "/gia-vang-rung-lac-manh-cac-yeu-to-tac-dong-hinh-thuon-ngay-dau-nam-moi-c161a1726975.html",
+    source: "24h.com.vn",
+  },
+  {
+    thumbnail: "https://cdn.24h.com.vn/upload/1-2026/images/2026-01-04/255x170/adt1767512709-04_-1249__anh_cat_3_2.jpg",
+    title: "Giá vàng hôm nay mới nhất (4/1) giảm mức thấp: Hàng dài người mua 'chen chúc', nhà vàng lại dừng bán",
+    content: "Giá vàng hôm nay 4/1, vàng SJC và nhẫn vẫn giữ mức thấp hơn so với đỉnh. Người mua tiếp tục xếp hàng dài từ sớm khiến cửa hàng 'quá tải', phải dừng bán.",
+    link: "/gia-vang-hom-nay-moi-nhat-4-1-giam-muc-thap-hang-dai-nguoi-mua-chen-chuc-nha-vang-lai-dung-ban-c161a1726913.html",
+    source: "24h.com.vn",
+  },
+  {
+    thumbnail: "https://cdn.24h.com.vn/upload/1-2026/images/2026-01-04/255x170/adt1767489318-gia-vang-hom-nay-7-11-1-0749__anh_cat_3_2.jpg",
+    title: "Giá vàng hôm nay (4/1): Vàng SJC 'bốc hơi' gần 7 triệu đồng/lượng sau 1 tuần",
+    content: "Giá vàng hôm nay 4/1, vàng SJC tiếp tục ổn định nhưng giảm gần 7 triệu đồng/lượng so với tuần trước đó, còn vàng nhẫn cũng giảm mạnh từ 4,9 - 6 triệu đồng/lượng.",
+    link: "/gia-vang-hom-nay-4-1-vang-sjc-boc-hoi-gan-7-trieu-dong-luong-sau-1-tuan-c161a1726838.html",
+    source: "24h.com.vn",
+  },
+  {
+    thumbnail: "https://cdn.24h.com.vn/upload/1-2026/images/2026-01-04/255x170/adt1767509294-gia-bac-1311__anh_cat_3_2.jpg",
+    title: "Giá bạc năm 2025 tăng “điên rồ”: Nhiều kịch bản trong năm 2026",
+    content: "Năm 2025 chứng kiến diễn biến giá bạc tăng chưa từng có khi kim loại trắng này liên tục phá đỉnh lịch sử, trở thành một trong những tài sản tăng giá nổi bật nhất trên thị trường hàng hóa. Nhiều nhà đầu tư và chuyên gia hướng sự chú ý sang năm 2026 với những dự báo trái chiều, từ khả năng tiếp tục tăng cao đến rủi ro điều chỉnh mạnh.",
+    link: "/gia-bac-nam-2025-tang-dien-ro-nhieu-kich-ban-trong-nam-2026-c161a1726909.html",
+    source: "24h.com.vn",
+  },
+  {
+    thumbnail: "https://cdn.24h.com.vn/upload/1-2026/images/2026-01-04/255x170/adt1767512709-04_-1249__anh_cat_3_2.jpg",
+    title: "Giá vàng hôm nay mới nhất (3/1) quay đầu giảm: Nhà vàng lại 'cháy hàng', người mua kiên trì xếp hàng",
+    content: "Giá vàng hôm nay trưa 3/1, vàng nhẫn quay đầu giảm so với hôm qua. Nhà vàng tiếp tục dừng bán dù chỉ mới mở cửa gần 1 tiếng, tuy nhiên, khách hàng vẫn nhẫn nại chờ.",
+    link: "/gia-vang-hom-nay-moi-nhat-3-1-quay-dau-giam-nha-vang-lai-chay-hang-nguoi-mua-kien-tri-xep-hang-c161a1726678.html",
+    source: "24h.com.vn",
+  },
+  {
+    thumbnail: "https://cdn.24h.com.vn/upload/1-2026/images/2026-01-04/255x170/adt1767512709-04_-1249__anh_cat_3_2.jpg",
+    title: "Giá vàng hôm nay (3/1): Tăng sốc, một thương hiệu hết vàng bán ra",
+    content: "Giá vàng hôm nay 3/1, vàng SJC tiếp tục bất động, còn nhẫn tăng trở lại tùy thương hiệu so với hôm trước. Trong khi, giá vàng thế giới liên tục biến động mạnh.",
+    link: "/gia-vang-hom-nay-3-1-tang-soc-mot-thuong-hieu-het-vang-ban-ra-c161a1726645.html",
+    source: "24h.com.vn",
+  },
+
+  {
+    thumbnail: "https://cdn.24h.com.vn/upload/1-2026/images/2026-01-03/255x170/adt1767399596-vang-868-60338-0-0-1250-2000-crop-73__anh_cat_3_2.jpg",
+    title: "Giá vàng hôm nay 3-1: Tăng vọt rồi đột ngột giảm sâu",
+    content: "Giá vàng hôm nay, 3-1, trên thế giới biến động khó lường khi nhu cầu trú ẩn vốn an toàn tăng cao, nhà đầu tư tranh thủ bán chốt lời.",
+    link: "/gia-vang-hom-nay-3-1-tang-vot-roi-dot-ngot-giam-sau-c161a1726614.html",
+    source: "24h.com.vn",
+  },
+  {
+    thumbnail: "https://cdn.24h.com.vn/upload/1-2026/images/2026-01-02/255x170/adt1767369897-tp-m1__anh_cat_3_2.webp",
+    title: "Giá vàng tiếp tục gây bất ngờ?",
+    content: "Năm 2025 ghi dấu kỷ lục của giá vàng thế giới và trong nước. Nhiều dự báo, giá vàng vẫn tạo ra những bất ngờ trong năm 2026.",
+    link: "/gia-vang-tiep-tuc-gay-bat-ngo-c161a1726589.html",
+    source: "24h.com.vn",
+  },
+]
+
 export const DateSample = randomWithTrendSwitch(goldData);

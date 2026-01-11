@@ -1,60 +1,9 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { GoldPriceChart } from "@/components/gold/GoldChart";
 import { GoldTodayYesterdayTable } from "@/components/gold/GoldData";
-import {
-  setGoldData,
-  setCurrentDate,
-  setBrand,
-  setGoldDateAllBrand,
-} from "@/stores/gold.store";
-import type { GoldPrice } from "@/types/gold-price";
-import { DateSample } from "@/constant/gold";
-import { useSelector } from "react-redux";
-import { selectCurrentDate } from "@/stores/selector.store";
-
+import { useGold } from "@/hooks/use-gold";
+import { GoldNewsList } from "@/components/gold/GoldNewsList";
 export default function GoldPricePage() {
-  const dispatch = useDispatch();
-  const currentDate = useSelector(selectCurrentDate);
-  const goldDateSample = DateSample;
-
-  useEffect(() => {
-    const normalizeDate = (dateStr: string) => {
-      const [d, m, y] = dateStr.split("/");
-      return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`;
-    };
-
-    const goldDataMap: Record<string, GoldPrice[]> = {};
-
-    Object.entries(goldDateSample).forEach(([brand, prices]) => {
-      goldDataMap[brand] = prices.map((p: any) => ({
-        ...p,
-        date: normalizeDate(p.date),
-      }));
-    });
-
-    const goldAllData: Record<string, GoldPrice[]> = {};
-
-    Object.entries(goldDateSample).forEach(([brand, prices]) => {
-      goldAllData[brand] = prices.map((p: any) => ({
-        ...p,
-        date: normalizeDate(p.date),
-      }));
-    });
-
-    dispatch(setGoldData(goldDataMap));
-    dispatch(setGoldDateAllBrand(goldDataMap));
-    
-    const today = currentDate;
-
-    dispatch(setCurrentDate(today));
-
-    if (goldDataMap["SJC"]) {
-      dispatch(setBrand("SJC"));
-    } else {
-      dispatch(setBrand(Object.keys(goldDataMap)[0]));
-    }
-  }, [dispatch]);
+  const { currentDate } = useGold();
 
   return (
     <div className="container mx-auto px-4 py-6">
@@ -66,6 +15,9 @@ export default function GoldPricePage() {
       <div className="flex justify-between gap-3">
         <GoldTodayYesterdayTable />
         <GoldPriceChart />
+      </div>
+      <div className="relation">
+        <GoldNewsList />
       </div>
     </div>
   );

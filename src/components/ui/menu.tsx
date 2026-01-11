@@ -7,38 +7,34 @@ import { forwardRef, useCallback, useImperativeHandle, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
-export interface UserIconHandle {
+export interface MenuIconHandle {
   startAnimation: () => void;
   stopAnimation: () => void;
 }
 
-interface UserIconProps extends HTMLAttributes<HTMLDivElement> {
+interface MenuIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const PATH_VARIANT: Variants = {
-  normal: { pathLength: 1, opacity: 1, pathOffset: 0 },
-  animate: {
-    pathLength: [0, 1],
-    opacity: [0, 1],
-    pathOffset: [1, 0],
-  },
-};
-
-const CIRCLE_VARIANT: Variants = {
+const LINE_VARIANTS: Variants = {
   normal: {
-    pathLength: 1,
-    pathOffset: 0,
-    scale: 1,
+    rotate: 0,
+    y: 0,
+    opacity: 1,
   },
-  animate: {
-    pathLength: [0, 1],
-    pathOffset: [1, 0],
-    scale: [0.5, 1],
-  },
+  animate: (custom: number) => ({
+    rotate: custom === 1 ? 45 : custom === 3 ? -45 : 0,
+    y: custom === 1 ? 6 : custom === 3 ? -6 : 0,
+    opacity: custom === 2 ? 0 : 1,
+    transition: {
+      type: "spring",
+      stiffness: 260,
+      damping: 20,
+    },
+  }),
 };
 
-const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
+const MenuIcon = forwardRef<MenuIconHandle, MenuIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation();
     const isControlledRef = useRef(false);
@@ -91,22 +87,32 @@ const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
           width={size}
           xmlns="http://www.w3.org/2000/svg"
         >
-          <motion.circle
+          <motion.line
             animate={controls}
-            cx="12"
-            cy="8"
-            r="5"
-            variants={CIRCLE_VARIANT}
+            custom={1}
+            variants={LINE_VARIANTS}
+            x1="4"
+            x2="20"
+            y1="6"
+            y2="6"
           />
-
-          <motion.path
+          <motion.line
             animate={controls}
-            d="M20 21a8 8 0 0 0-16 0"
-            transition={{
-              delay: 0.2,
-              duration: 0.4,
-            }}
-            variants={PATH_VARIANT}
+            custom={2}
+            variants={LINE_VARIANTS}
+            x1="4"
+            x2="20"
+            y1="12"
+            y2="12"
+          />
+          <motion.line
+            animate={controls}
+            custom={3}
+            variants={LINE_VARIANTS}
+            x1="4"
+            x2="20"
+            y1="18"
+            y2="18"
           />
         </svg>
       </div>
@@ -114,6 +120,6 @@ const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
   }
 );
 
-UserIcon.displayName = "UserIcon";
+MenuIcon.displayName = "MenuIcon";
 
-export { UserIcon };
+export { MenuIcon };

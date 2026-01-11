@@ -1,5 +1,4 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend } from "recharts";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   DropdownMenu,
@@ -15,14 +14,13 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { selectChartGoldData, selectBrand } from "@/stores/selector.store";
-import { useSelector } from "react-redux";
 import { useState, useRef } from "react";
 import { handleDownload, handlePrint } from "@/lib/helper";
+import { useGold } from "@/hooks/use-gold";
+import NotData from "../common/NotData";
 
 export function GoldPriceChart() {
-  const data = useSelector(selectChartGoldData);
-  const brand = useSelector(selectBrand);
+  const { chartData: data, brand } = useGold({ skipInit: true });
   const [visibleLines, setVisibleLines] = useState<string[]>(["buy", "sell"]);
   const chartRef = useRef<HTMLDivElement>(null);
 
@@ -48,11 +46,7 @@ export function GoldPriceChart() {
 
   if (!data.length) {
     return (
-      <Card>
-        <CardContent className="h-[350px] flex items-center justify-center text-muted-foreground">
-          Không có dữ liệu
-        </CardContent>
-      </Card>
+      <NotData />
     );
   }
 

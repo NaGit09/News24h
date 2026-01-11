@@ -8,14 +8,7 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent } from "@/components/ui/card";
 import PriceChangeLabel from "./PriceChangeLabel";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectBrand,
-  selectBrands,
-  selectGoldTableData,
-  selectCurrentDate,
-} from "@/stores/selector.store";
-import { setBrand, setCurrentDate } from "@/stores/gold.store";
+import { useGold } from "@/hooks/use-gold";
 import { cn } from "@/lib/utils";
 import {
   Select,
@@ -36,29 +29,39 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 
 export function GoldTodayYesterdayTable() {
-  const dispatch = useDispatch();
-  const tableData = useSelector(selectGoldTableData);
-  const brand = useSelector(selectBrand);
-  const brands = useSelector(selectBrands);
+  const { tableData, brand, brands, currentDate, updateBrand, updateDate } =
+    useGold({ skipInit: true });
 
-  const currentDate = useSelector(selectCurrentDate);
-  
   const date = new Date(currentDate);
 
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
-  const todayDate = format(date, "dd/MM/yyyy");
-  const yesterdayDate = format(date.setDate(date.getDate() - 1), "dd/MM/yyyy");
-  const handleSelectDate = (date: Date) => {
-    dispatch(setCurrentDate(format(date, "yyyy-MM-dd")));
-    setIsPopoverOpen(false);
+  // Helper to safely format date
+  const formatDateSafe = (d: Date | string | number) => {
+    try {
+      return format(new Date(d), "dd/MM/yyyy");
+    } catch (e) {
+      return "";
+    }
   };
-  
+
+  const todayDate = formatDateSafe(date);
+  const yesterdayDate = formatDateSafe(
+    new Date(date).setDate(date.getDate() - 1)
+  );
+
+  const handleSelectDate = (selectedDate: Date | undefined) => {
+    if (selectedDate) {
+      updateDate(format(selectedDate, "yyyy-MM-dd"));
+      setIsPopoverOpen(false);
+    }
+  };
+
   return (
     <div className="flex flex-col flex-1">
       <div className="filter flex justify-between mb-4 gap-4">
         {/* Filter by brand */}
-        <Select value={brand} onValueChange={(val) => dispatch(setBrand(val))}>
+        <Select value={brand} onValueChange={(val) => updateBrand(val)}>
           <SelectTrigger className="flex-1">
             <SelectValue placeholder="Tìm mã vàng nhanh" />
           </SelectTrigger>
@@ -128,7 +131,7 @@ export function GoldTodayYesterdayTable() {
                     brand === item.brand &&
                       "bg-muted/50 border-l-4 border-primary"
                   )}
-                  onClick={() => dispatch(setBrand(item.brand))}
+                  onClick={() => updateBrand(item.brand)}
                 >
                   <TableCell className="font-medium">{item.brand}</TableCell>
 

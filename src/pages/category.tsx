@@ -1,24 +1,20 @@
 import { useParams } from "react-router";
+import { Link } from "react-router";
 
-import { NewsCardFeatured } from "@/components/news/news-card-featured.tsx";
 import { NewsCardSmall } from "@/components/news/news-card-small.tsx";
-
 import { CategoryFilterTabs } from "@/components/common/CategoryFilterTabs";
-
 import { Breadcrumbs } from "@/components/layout/breadcrumbs.tsx";
-
 import { useState, useEffect, useRef } from "react";
-
 import { useRSSByCategory } from "@/hooks/use-rss";
-
 import { getCategoryName } from "@/constant/categories";
-import Loading from "@/components/common/Loading";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 import NotFound from "./not-found";
 import Reload from "@/components/common/Reload";
+import { Clock } from "lucide-react";
 
 export default function CategoryPage() {
   const { category } = useParams<{ category: string }>();
-  const [page, setPage] = useState(1);
+
   const [displayedNews, setDisplayedNews] = useState<any[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const observerRef = useRef<HTMLDivElement>(null);
@@ -44,70 +40,38 @@ export default function CategoryPage() {
 
   useEffect(() => {
     if (articles.length > 0) {
-      setDisplayedNews(articles.slice(0, 10));
-      setPage(1);
-      setHasMore(articles.length > 10);
-    }
-  }, [articles]);
-
-  const loadMore = () => {
-    const nextNews = articles.slice(page * 10, (page + 1) * 10);
-    if (nextNews.length > 0) {
-      setDisplayedNews((prev) => [...prev, ...nextNews]);
-      setPage((prev) => prev + 1);
-    } else {
+      setDisplayedNews(articles);
       setHasMore(false);
     }
-  };
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasMore && !loading) {
-          loadMore();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (observerRef.current) {
-      observer.observe(observerRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, [hasMore, loading, page]);
+  }, [articles]);
 
   if (!categoryName) {
     return <NotFound />;
   }
 
   if (loading) {
-    return <Loading />;
+    return <LoadingSpinner />;
   }
 
   if (error) {
     return <Reload />;
   }
 
-  const featuredNews = articles[0]
-    ? {
-        id: articles[0].guid,
-        title: articles[0].title,
-        sapo: articles[0].description.substring(0, 200) + "...",
-        image: articles[0].image || "/placeholder.svg",
-        category: categoryName,
-        publishedAt: new Date(articles[0].pubDate).toLocaleString("vi-VN", {
-          hour: "2-digit",
-          minute: "2-digit",
-          day: "2-digit",
-          month: "2-digit",
-        }),
-        href: `/bai-viet/${articles[0].guid}`,
-      }
-    : null;
+  const heroArticle = displayedNews[0];
+  const subHeroArticles = displayedNews.slice(1, 4);
+  const gridArticles = displayedNews.slice(4);
+
+  const formatDate = (dateStr: string) => {
+    return new Date(dateStr).toLocaleString("vi-VN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      day: "2-digit",
+      month: "2-digit",
+    });
+  };
 
   return (
-    <div className="bg-background min-h-screen">
+    <div className="bg-background min-h-screen pb-12">
       <div className="container mx-auto px-4 py-6">
         <Breadcrumbs
           items={[
@@ -116,56 +80,111 @@ export default function CategoryPage() {
           ]}
         />
 
-        {/* Category Header with visual indicator */}
-        <div className="mb-6 border-b-2 border-primary pb-4">
-          <h1 className="text-3xl font-bold text-foreground">{categoryName}</h1>
-          <p className="mt-2 text-muted-foreground">
-            Cập nhật tin tức mới nhất về {categoryName.toLowerCase()}
+        {/* Header */}
+        <div className="mb-8 border-b border-border/60 pb-6">
+          <h1 className="text-4xl font-black tracking-tight text-foreground uppercase">
+            {categoryName}
+          </h1>
+          <p className="mt-2 text-lg text-muted-foreground">
+            Tin tức nổi bật, cập nhật liên tục về {categoryName.toLowerCase()}
           </p>
         </div>
 
-        <div className="mb-8">
+        <div className="mb-10">
           <CategoryFilterTabs onFilterChange={() => {}} />
         </div>
 
-        {/* Featured News */}
-        {featuredNews && (
-          <div className="mb-8">
-            <NewsCardFeatured {...featuredNews} />
-          </div>
+        {/* HERO SECTION */}
+        {heroArticle && (
+          <section className="mb-12 grid gap-8 lg:grid-cols-12">
+            {/* Main Hero Article (Left - 8 cols) */}
+            <div className="lg:col-span-8 group cursor-pointer">
+              <Link
+                to={`/bai-viet/${heroArticle.guid}`}
+                className="block h-full"
+              >
+                <div className="relative overflow-hidden rounded-xl shadow-sm aspect-video mb-4">
+                  <img
+                    src={heroArticle.image || "/placeholder.svg"}
+                    alt={heroArticle.title}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
+                </div>
+                <div className="space-y-3">
+                  <h2 className="text-3xl font-bold leading-tight text-foreground group-hover:text-primary transition-colors">
+                    {heroArticle.title}
+                  </h2>
+                  <p className="text-lg text-muted-foreground line-clamp-3">
+                    {heroArticle.description}
+                  </p>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Clock className="w-4 h-4" />
+                    <span>{formatDate(heroArticle.pubDate)}</span>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+            {/* Side List (Right - 4 cols) */}
+            <div className="lg:col-span-4 flex flex-col gap-6 border-l border-border/50 pl-0 lg:pl-6">
+              {subHeroArticles.map((article) => (
+                <Link
+                  key={article.guid}
+                  to={`/bai-viet/${article.guid}`}
+                  className="group flex gap-4 lg:block"
+                >
+                  <div className="relative h-24 w-36 shrink-0 overflow-hidden rounded-lg bg-muted lg:h-40 lg:w-full lg:mb-3">
+                    <img
+                      src={article.image || "/placeholder.svg"}
+                      alt={article.title}
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="line-clamp-3 text-lg font-bold leading-snug text-foreground group-hover:text-primary transition-colors">
+                      {article.title}
+                    </h3>
+                    <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
+                      <Clock className="w-3 h-3" />
+                      <span>{formatDate(article.pubDate)}</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
         )}
 
-        {/* News Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {displayedNews.slice(1).map((article) => (
-            <NewsCardSmall
-              key={article.guid}
-              title={article.title}
-              sapo={article.description.substring(0, 150) + "..."}
-              image={article.image || "/placeholder.svg"}
-              href={`/bai-viet/${article.guid}`}
-              publishedAt={new Date(article.pubDate).toLocaleString("vi-VN", {
-                hour: "2-digit",
-                minute: "2-digit",
-                day: "2-digit",
-                month: "2-digit",
-              })}
-            />
-          ))}
-        </div>
+        {/* REMAINING GRID SECTION */}
+        <section>
+          <div className="mb-6 flex items-center justify-between border-b border-border/50 pb-2">
+            <h3 className="text-2xl font-bold text-foreground">Tin khác</h3>
+          </div>
 
-        <div ref={observerRef} className="mt-8 text-center">
-          {hasMore && !loading && (
-            <p className="text-muted-foreground text-sm">
-              Cuộn xuống để xem thêm...
-            </p>
-          )}
-          {!hasMore && (
-            <p className="text-muted-foreground text-sm">
-              Đã hiển thị tất cả tin tức
-            </p>
-          )}
-        </div>
+          <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {gridArticles.map((article) => (
+              <NewsCardSmall
+                key={article.guid}
+                title={article.title}
+                sapo={article.description}
+                image={article.image || "/placeholder.svg"}
+                href={`/bai-viet/${article.guid}`}
+                publishedAt={formatDate(article.pubDate)}
+              />
+            ))}
+          </div>
+
+          <div ref={observerRef} className="mt-12 text-center">
+            {hasMore ? (
+              <LoadingSpinner />
+            ) : (
+              <div className="py-8 text-muted-foreground bg-muted/30 rounded-lg">
+                <p>Đã hiển thị tất cả tin hiện có</p>
+              </div>
+            )}
+          </div>
+        </section>
       </div>
     </div>
   );
