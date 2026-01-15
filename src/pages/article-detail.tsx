@@ -137,19 +137,6 @@ export default function ArticlePage() {
               </div>
               <ArticleContent content={articleContent} />
 
-              <div className="my-6 p-4 bg-muted/30 rounded">
-                <p className="text-sm text-muted-foreground">
-                  Nguồn:{" "}
-                  <a
-                    href={rssArticle.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline font-medium"
-                  >
-                    24h.com.vn
-                  </a>
-                </p>
-              </div>
 
               <div className="no-print">
                 <AuthorProfileCard {...authorInfo} />
