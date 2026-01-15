@@ -1,11 +1,11 @@
 import { commentsData } from "@/constant/comment";
 import { MessageSquare } from "lucide-react";
 import { useEffect } from "react";
-import CommentDisplay from "../common/Comment";
+import CommentDisplay from "../common/comment.tsx";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/stores/root.store";
 import { setComments } from "@/stores/comment.store";
-import CommentForm from "../common/CommentForm";
+import CommentForm from "../common/comment-form.tsx";
 
 export function ArticleComments() {
   const dispatch = useDispatch();

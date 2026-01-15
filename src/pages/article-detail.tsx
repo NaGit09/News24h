@@ -26,7 +26,7 @@ import {useViewCounter} from "@/hooks/use-view-counter";
 import {useEffect, useState} from "react";
 import type {Article} from "@/types/news";
 import {authorInfo} from "@/constant/author";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
+import LoadingSpinner from "@/components/common/loading-spinner.tsx";
 import NotFound from "./not-found";
 import {cleanArticleContent} from "@/lib/clean";
 

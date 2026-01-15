@@ -1,6 +1,6 @@
 import { CalendarDays } from "lucide-react";
-import { LunarCalendar } from "@/components/calendar/LunarCalendar";
-import { DayDetailPanel } from "@/components/calendar/DayDetailPanel";
+import { LunarCalendar } from "@/components/calendar/lunar-calendar.tsx";
+import { DayDetailPanel } from "@/components/calendar/day-detail-panel.tsx";
 import { homeCategoryBlocks } from "@/constant/home-data";
 import { CategoryBlock } from "@/components/sections/category-block";
 import { useCalendar } from "@/hooks/use-calendar";

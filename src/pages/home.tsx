@@ -10,8 +10,8 @@ import { CategoryBlock } from "@/components/sections/category-block.tsx";
 import { SidebarTrending } from "@/components/sections/sidebar-trending.tsx";
 
 import { useRSSFeeds } from "@/hooks/use-rss";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
-import Reload from "@/components/common/Reload";
+import LoadingSpinner from "@/components/common/loading-spinner.tsx";
+import Reload from "@/components/common/reload.tsx";
 
 import { dataSample } from "@/lib/news";
 

@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs.tsx";
-import { CategoryFilterTabs } from "@/components/common/CategoryFilterTabs";
+import { CategoryFilterTabs } from "@/components/common/category-filter-tabs.tsx";
 
 export default function TagPage() {
   const { tag } = useParams<{ tag: string }>();

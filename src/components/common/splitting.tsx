@@ -1,5 +1,5 @@
 import {Suspense} from 'react'
-import LoadingSpinner from './LoadingSpinner'
+import LoadingSpinner from './loading-spinner.tsx'
 
 const Splitting = ({children}: {children: React.ReactNode}) => {
   return (

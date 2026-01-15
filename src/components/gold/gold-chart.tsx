@@ -17,7 +17,7 @@ import {
 import { useState, useRef } from "react";
 import { handleDownload, handlePrint } from "@/lib/helper";
 import { useGold } from "@/hooks/use-gold";
-import NotData from "../common/NotData";
+import NotData from "../common/not-data.tsx";
 
 export default function GoldPriceChart() {
   const { chartData: data, brand } = useGold({ skipInit: true });

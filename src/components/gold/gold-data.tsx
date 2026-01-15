@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent } from "@/components/ui/card";
-import PriceChangeLabel from "./PriceChangeLabel";
+import PriceChangeLabel from "./price-change-label.tsx";
 import { useGold } from "@/hooks/use-gold";
 import { useDate } from "@/hooks/use-date";
 import { cn } from "@/lib/utils";
