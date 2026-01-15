@@ -2,14 +2,14 @@ import { useParams } from "react-router";
 import { Link } from "react-router";
 
 import { NewsCardSmall } from "@/components/news/news-card-small.tsx";
-import { CategoryFilterTabs } from "@/components/common/CategoryFilterTabs";
+import { CategoryFilterTabs } from "@/components/common/category-filter-tabs.tsx";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs.tsx";
 import { useState, useEffect, useRef } from "react";
 import { useRSSByCategory } from "@/hooks/use-rss";
 import { getCategoryName } from "@/constant/categories";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
+import LoadingSpinner from "@/components/common/loading-spinner.tsx";
 import NotFound from "./not-found";
-import Reload from "@/components/common/Reload";
+import Reload from "@/components/common/reload.tsx";
 import { Clock } from "lucide-react";
 import {formatRelativeTime } from "@/lib/time";
 

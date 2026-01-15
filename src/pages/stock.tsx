@@ -2,11 +2,12 @@ import { useStock } from "@/hooks/use-stock";
 import { useRSSByCategory } from "@/hooks/use-rss";
 import { Calendar } from "lucide-react";
 import { lazy } from "react";
-import Splitting from "@/components/common/Splitting";
+import Splitting from "@/components/common/splitting.tsx";
 
-const StockChart = lazy(() => import("@/components/stock/StockChart"));
-const StockTable = lazy(() => import("@/components/stock/StockTable"));
-const StockNewsList = lazy(() => import("@/components/stock/StockNewsList"));
+const StockChart = lazy(() => import("@/components/stock/stock-chart.tsx"));
+const StockStats = lazy(() => import("@/components/stock/stock-stats.tsx"));
+const StockTable = lazy(() => import("@/components/stock/stock-table.tsx"));
+const StockNewsList = lazy(() => import("@/components/stock/stock-news-list.tsx"));
 
 const StockPage = () => {
   const { data, loading, error } = useStock();

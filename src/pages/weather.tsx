@@ -1,10 +1,10 @@
 import { homeCategoryBlocks } from "@/constant/home-data";
 import { CategoryBlock } from "@/components/sections/category-block";
 import NotFound from "./not-found";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
+import LoadingSpinner from "@/components/common/loading-spinner.tsx";
 import { useWeather } from "@/hooks/use-weather";
 import { lazy, useMemo } from "react";
-import Splitting from "@/components/common/Splitting";
+import Splitting from "@/components/common/splitting.tsx";
 
 const CurrentWeather = lazy(() => import('@/components/weather/current-weather'));
 const HourlyForecast = lazy(() => import('@/components/weather/hourly-forecast'));

@@ -1,10 +1,10 @@
 import { useGold } from "@/hooks/use-gold";
 import { lazy } from "react";
-import Splitting from "@/components/common/Splitting";
+import Splitting from "@/components/common/splitting.tsx";
 
-const GoldPriceChart = lazy(() => import("@/components/gold/GoldChart"));
-const GoldTodayYesterdayTable = lazy(() => import("@/components/gold/GoldData"));
-const GoldNewsList = lazy(() => import("@/components/gold/GoldNewsList"));
+const GoldPriceChart = lazy(() => import("@/components/gold/gold-chart.tsx"));
+const GoldTodayYesterdayTable = lazy(() => import("@/components/gold/gold-data.tsx"));
+const GoldNewsList = lazy(() => import("@/components/gold/gold-news-list.tsx"));
 
 export default function GoldPricePage() {
   const { currentDate } = useGold();
