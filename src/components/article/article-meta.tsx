@@ -11,11 +11,13 @@ import {
   Share2,
   User,
   Volume2,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button.tsx";
 import { FontSizeAdjuster } from "@/components/widgets/font-size-adjuster.tsx";
 import { useEffect, useState, useMemo } from "react";
 import { calculateReadingTime, formatReadingTime } from "@/lib/time";
+import { tssReader } from "@/lib/tssReader";
 
 interface ArticleMetaProps {
   author: string;
@@ -34,6 +36,7 @@ export function ArticleMeta({
 }: ArticleMetaProps) {
   const [isSaved, setIsSaved] = useState(false);
   const [isReading, setIsReading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [localShareCount, setLocalShareCount] = useState(shareCount);
 
   const readingTime = useMemo(() => {
@@ -52,7 +55,7 @@ export function ArticleMeta({
     }
   }, []);
 
-  const handleTextToSpeech = () => {
+  const handleTextToSpeech = async () => {
     if (!articleContent) return;
 
     if (isReading) {
@@ -61,13 +64,33 @@ export function ArticleMeta({
       return;
     }
 
-    const utterance = new SpeechSynthesisUtterance(articleContent);
-    utterance.lang = "vi-VN";
-    utterance.rate = 0.9;
-    utterance.pitch = 1;
-    utterance.onend = () => setIsReading(false);
-    window.speechSynthesis.speak(utterance);
-    setIsReading(true);
+    try {
+      setIsLoading(true);
+      const limitContent = articleContent.slice(0, 500);
+
+      // Minimum loading time of 5 seconds
+      const minLoadingTime = new Promise((resolve) =>
+        setTimeout(resolve, 5000)
+      );
+
+      const [response] = await Promise.all([
+        tssReader(limitContent),
+        minLoadingTime,
+      ]);
+
+      const { audioFile } = response;
+      const audio = new Audio(audioFile);
+
+      // Reset reading state when audio ends
+      audio.onended = () => setIsReading(false);
+
+      audio.play();
+      setIsReading(true);
+    } catch (error) {
+      console.error("Text to speech error:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleShare = (platform: string) => {
@@ -181,10 +204,19 @@ export function ArticleMeta({
           variant={isReading ? "default" : "outline"}
           size="sm"
           onClick={handleTextToSpeech}
+          disabled={isLoading}
           className="gap-2"
         >
-          <Volume2 className="h-4 w-4" />
-          {isReading ? "Đang đọc..." : "Nghe bài viết"}
+          {isLoading ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <Volume2 className="h-4 w-4" />
+          )}
+          {isLoading
+            ? "Đang xử lý..."
+            : isReading
+            ? "Đang đọc..."
+            : "Nghe bài viết"}
         </Button>
 
         <Button
