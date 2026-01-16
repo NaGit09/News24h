@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/tts",
+      "destination": "/api/tts"
+    },
+    {
       "source": "/api/rss/:match*",
       "destination": "https://cdn.24h.com.vn/upload/rss/:match*"
     },

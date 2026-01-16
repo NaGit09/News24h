@@ -10,6 +10,13 @@ export const createRecord = async (
       voice_id: "Lia",
       multiNativeLocale: "vi-VN",
       format: "wav",
+    }, {
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "token": import.meta.env.VITE_MURF_TOKEN,
+        "api-key": import.meta.env.VITE_MURF_KEY,
+      }
     });
 
     return {
