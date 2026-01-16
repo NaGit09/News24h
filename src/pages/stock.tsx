@@ -5,7 +5,6 @@ import { lazy } from "react";
 import Splitting from "@/components/common/Splitting";
 
 const StockChart = lazy(() => import("@/components/stock/StockChart"));
-const StockStats = lazy(() => import("@/components/stock/StockStats"));
 const StockTable = lazy(() => import("@/components/stock/StockTable"));
 const StockNewsList = lazy(() => import("@/components/stock/StockNewsList"));
 
@@ -27,9 +26,6 @@ const StockPage = () => {
 
         {!loading && !error && data && data.length > 0 && (
           <div className="space-y-8">
-            <Splitting>
-              <StockStats data={data} />
-            </Splitting>
 
             <Splitting>
               <StockChart data={data} />
