@@ -136,15 +136,3 @@ export const navigateToComment = () => {
     commentsSection.scrollIntoView({ behavior: "smooth" });
   }
 }
-
-export const HoursAgo = (time: string) => {
-  const today = new Date().getTime();
-  const [hour, minute] = time.split(":");
-  const timeNow = new Date().setHours(Number(hour), Number(minute), 0, 0);
-  const diffMs = today - timeNow;
-  const hoursAgo = Math.floor(diffMs / (1000 * 60 * 60));
-  if (hoursAgo < 1) {
-    return "Mới đăng " + minute + " phút trước";
-  }
-  return hoursAgo + " giờ trước";
-}

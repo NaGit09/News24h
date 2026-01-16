@@ -4,18 +4,24 @@
  * @param wordsPerMinute - Average reading speed (default: 200 words per minute)
  * @returns Estimated reading time in minutes
  */
-export function calculateReadingTime(text: string, wordsPerMinute: number = 200): number {
+export function calculateReadingTime(
+  text: string,
+  wordsPerMinute: number = 200
+): number {
   if (!text) return 0;
-  
+
   // Remove HTML tags
-  const plainText = text.replace(/<[^>]*>/g, '');
-  
+  const plainText = text.replace(/<[^>]*>/g, "");
+
   // Count words (split by whitespace and filter empty strings)
-  const wordCount = plainText.trim().split(/\s+/).filter(word => word.length > 0).length;
-  
+  const wordCount = plainText
+    .trim()
+    .split(/\s+/)
+    .filter((word) => word.length > 0).length;
+
   // Calculate reading time in minutes
   const readingTime = Math.ceil(wordCount / wordsPerMinute);
-  
+
   return readingTime;
 }
 
@@ -31,62 +37,106 @@ export function formatReadingTime(minutes: number): string {
 }
 
 /**
- * Format a date string to relative time (e.g., "2 phút trước", "3 giờ trước")
- * @param dateString - ISO date string or any valid date format
- * @returns Formatted relative time string in Vietnamese
+ * Format a date string to "HH:mm DD/MM/YYYY"
+ * @param dateInput - Date string or Date object
+ * @returns Formatted date string
+ */
+export function formatDate(dateInput: string | Date): string {
+  const date = typeof dateInput === "string" ? new Date(dateInput) : dateInput;
+
+  if (isNaN(date.getTime())) {
+    // Try to handle "YYYY-MM-DD HH:mm:ss" format if simple Date parsing failed
+    if (typeof dateInput === "string" && dateInput.includes(" ")) {
+      const fixed = dateInput.replace(" ", "T");
+      const d2 = new Date(fixed);
+      if (!isNaN(d2.getTime())) {
+        const hours = d2.getHours().toString().padStart(2, "0");
+        const minutes = d2.getMinutes().toString().padStart(2, "0");
+        const day = d2.getDate().toString().padStart(2, "0");
+        const month = (d2.getMonth() + 1).toString().padStart(2, "0");
+        const year = d2.getFullYear();
+        return `${hours}:${minutes} ${day}/${month}/${year}`;
+      }
+    }
+    return typeof dateInput === "string" ? dateInput : "";
+  }
+
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${hours}:${minutes} ${day}/${month}/${year}`; // Format: HH:mm day/month/year
+}
+
+/**
+ * Format a date string to "posted X days ago"
+ * @param dateString - ISO date string or "HH:mm DD/MM/YYYY"
+ * @returns Formatted relative time string
  */
 export function formatRelativeTime(dateString: string): string {
-  const now = new Date();
-  const date = new Date(dateString);
-  
-  // Check if date is valid
+  let date: Date;
+
+  // Try to parse "HH:mm DD/MM/YYYY" format
+  if (
+    typeof dateString === "string" &&
+    dateString.includes(" ") &&
+    dateString.includes("/")
+  ) {
+    const [time, datePart] = dateString.split(" ");
+    const [hours, minutes] = time.split(":");
+    const [day, month, year] = datePart.split("/");
+
+    date = new Date(
+      parseInt(year),
+      parseInt(month)-1,
+      parseInt(day),
+      parseInt(hours),
+      parseInt(minutes)
+    );
+  } else {
+    date = new Date(dateString);
+  }
+
   if (isNaN(date.getTime())) {
     return dateString;
   }
 
-  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+  const now = new Date();
 
-  // Future date
-  if (diffInSeconds < 0) {
-    return "Vừa xong";
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  const postedDay = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    date.getHours(),
+    date.getMinutes()
+  );
+
+  const diffTime = Math.abs(today.getTime() - postedDay.getTime())/(60*1000);
+  console.log(diffTime);
+
+  if (diffTime < 60) {
+    return `Vừa đăng ${Math.floor(diffTime)} phút trước`;
   }
 
-  // Less than 1 minute
-  if (diffInSeconds < 60) {
-    return "Vừa xong";
+  if (diffTime < 60 * 60) {
+    return `${Math.floor(diffTime / 60)} phút trước`;
   }
 
-  // Less than 1 hour
-  const diffInMinutes = Math.floor(diffInSeconds / 60);
-  if (diffInMinutes < 60) {
-    return `${diffInMinutes} phút trước`;
+  if (diffTime < 60 * 60 * 24) {
+    return `Hôm qua vào lúc ${formatDate(date)}`;
   }
 
-  // Less than 1 day
-  const diffInHours = Math.floor(diffInMinutes / 60);
-  if (diffInHours < 24) {
-    return `${diffInHours} giờ trước`;
+  if (diffTime < 60 * 60 * 24 * 30 * 1000) {
+    return `${Math.floor(diffTime / (60 * 60 * 24))} ngày trước`;
   }
 
-  // Less than 1 week
-  const diffInDays = Math.floor(diffInHours / 24);
-  if (diffInDays < 7) {
-    return `${diffInDays} ngày trước`;
+  if (diffTime < 60 * 60 * 24 * 365) {
+    return `${Math.floor(diffTime / (60 * 60 * 24 * 30))} tháng trước`;
   }
 
-  // Less than 1 month
-  const diffInWeeks = Math.floor(diffInDays / 7);
-  if (diffInWeeks < 4) {
-    return `${diffInWeeks} tuần trước`;
-  }
-
-  // Less than 1 year
-  const diffInMonths = Math.floor(diffInDays / 30);
-  if (diffInMonths < 12) {
-    return `${diffInMonths} tháng trước`;
-  }
-
-  // More than 1 year
-  const diffInYears = Math.floor(diffInDays / 365);
-  return `${diffInYears} năm trước`;
+  return `${Math.floor(diffTime / (60 * 60 * 24 * 365 * 2))} năm trước`;
 }

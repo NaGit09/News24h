@@ -1,6 +1,7 @@
 import { fallbackHeroNews } from "@/constant/home-data";
 import type { Article } from "@/types/news";
 import { homeCategoryBlocks } from "@/constant/home-data";
+import { formatDate } from "@/lib/time";
 
 export const dataSample = (articles: Article[]) => {
     const heroNews = articles[0]
@@ -13,13 +14,7 @@ export const dataSample = (articles: Article[]) => {
                     : "/placeholder.svg",
             category: articles[0].category || "Tin tức",
             href: `/bai-viet/${articles[0].guid}`,
-            publishedAt: new Date(articles[0].pubDate).toLocaleString("vi-VN", {
-                hour: "2-digit",
-                minute: "2-digit",
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-            }),
+            publishedAt: formatDate(articles[0].pubDate),
             timestamp: articles[0].pubDate,
         }
         : fallbackHeroNews;
@@ -32,26 +27,14 @@ export const dataSample = (articles: Article[]) => {
                 ? article.image
                 : "/placeholder.svg",
         href: `/bai-viet/${article.guid}`,
-        publishedAt: new Date(article.pubDate).toLocaleString("vi-VN", {
-            hour: "2-digit",
-            minute: "2-digit",
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-        }),
+        publishedAt: formatDate(article.pubDate),
     }));
 
     const newsStackItems = articles.slice(6, 16).map((article) => ({
         title: article.title,
         sapo: article.description.substring(0, 100) + "...",
         href: `/bai-viet/${article.guid}`,
-        publishedAt: new Date(article.pubDate).toLocaleString("vi-VN", {
-            hour: "2-digit",
-            minute: "2-digit",
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-        }),
+        publishedAt: formatDate(article.pubDate),
     }));
 
     const trendingNews = articles.slice(16, 21).map((article, _) => ({
@@ -71,13 +54,7 @@ export const dataSample = (articles: Article[]) => {
                 ? article.image
                 : "/placeholder.svg",
         href: `/bai-viet/${article.guid}`,
-        publishedAt: new Date(article.pubDate).toLocaleString("vi-VN", {
-            hour: "2-digit",
-            minute: "2-digit",
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-        }),
+        publishedAt: formatDate(article.pubDate),
     }));
 
     return {

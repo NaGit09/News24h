@@ -1,14 +1,14 @@
 import { MapPin, Droplets, Wind, Thermometer } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { WeatherIcon } from "./weather-icon";
-import type { WeatherData } from "@/services/weather.service";
+import type { WeatherData } from "@/types/weather";
 
 interface CurrentWeatherProps {
   data: WeatherData;
 }
 
 export default function CurrentWeather({ data }: CurrentWeatherProps) {
-  const isNight = !data.current.isDay;
+  const isNight = !data.current.status;
   const isRainy = data.current.status.toLowerCase().includes("mưa");
 
   let bgGradient = "from-sky-400 to-blue-600";

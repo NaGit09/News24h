@@ -1,7 +1,7 @@
 import { Clock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { WeatherIcon } from "./weather-icon";
-import type { WeatherData } from "@/services/weather.service";
+import type { WeatherData } from "@/types/weather";
 
 interface HourlyForecastProps {
   data: WeatherData["hourly"];

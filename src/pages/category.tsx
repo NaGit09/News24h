@@ -11,6 +11,7 @@ import LoadingSpinner from "@/components/common/loading-spinner.tsx";
 import NotFound from "./not-found";
 import Reload from "@/components/common/reload.tsx";
 import { Clock } from "lucide-react";
+import {formatRelativeTime } from "@/lib/time";
 
 export default function CategoryPage() {
   const { category } = useParams<{ category: string }>();
@@ -61,14 +62,7 @@ export default function CategoryPage() {
   const subHeroArticles = displayedNews.slice(1, 4);
   const gridArticles = displayedNews.slice(4);
 
-  const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleString("vi-VN", {
-      hour: "2-digit",
-      minute: "2-digit",
-      day: "2-digit",
-      month: "2-digit",
-    });
-  };
+ 
 
   return (
     <div className="bg-background min-h-screen pb-12">
@@ -109,7 +103,7 @@ export default function CategoryPage() {
                     alt={heroArticle.title}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-60" />
                 </div>
                 <div className="space-y-3">
                   <h2 className="text-3xl font-bold leading-tight text-foreground group-hover:text-primary transition-colors">
@@ -120,7 +114,7 @@ export default function CategoryPage() {
                   </p>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Clock className="w-4 h-4" />
-                    <span>{formatDate(heroArticle.pubDate)}</span>
+                    <span>{formatRelativeTime(heroArticle.pubDate)}</span>
                   </div>
                 </div>
               </Link>
@@ -147,7 +141,7 @@ export default function CategoryPage() {
                     </h3>
                     <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
                       <Clock className="w-3 h-3" />
-                      <span>{formatDate(article.pubDate)}</span>
+                      <span>{formatRelativeTime(article.pubDate)}</span>
                     </div>
                   </div>
                 </Link>
@@ -170,7 +164,7 @@ export default function CategoryPage() {
                 sapo={article.description}
                 image={article.image || "/placeholder.svg"}
                 href={`/bai-viet/${article.guid}`}
-                publishedAt={formatDate(article.pubDate)}
+                publishedAt={formatRelativeTime(article.pubDate)}
               />
             ))}
           </div>

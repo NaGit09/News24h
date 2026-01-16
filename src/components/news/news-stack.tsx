@@ -1,4 +1,4 @@
-import { HoursAgo } from "@/lib/helper";
+import { formatRelativeTime } from "@/lib/time";
 import { Link } from "react-router";
 
 interface NewsStackItem {
@@ -36,8 +36,7 @@ export function NewsStack({ items, title = "Tin mới nhất" }: NewsStackProps)
                 </p>
               )}
               <time className="mt-1 block text-xs text-muted-foreground">
-                {HoursAgo(item.publishedAt.split(" ")[0])}{" "}
-                {item.publishedAt.split(" ")[1]}
+              {formatRelativeTime(item.publishedAt)}
               </time>
             </Link>
           </li>

@@ -103,7 +103,6 @@ export default function ArticlePage() {
               title={articleTitle}
               author={authorInfo.name}
               publishedAt={new Date(rssArticle.pubDate).toLocaleString("vi-VN")}
-              url={window.location.href}
             />
 
             <article className="mt-4">
