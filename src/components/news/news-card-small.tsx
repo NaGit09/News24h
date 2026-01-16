@@ -35,7 +35,6 @@ export function NewsCardSmall(props: NewsCardSmallProps) {
           )}
           <time className="text-xs text-muted-foreground">
            {time}
-           {time}
           </time>
         </div>
       </article>
