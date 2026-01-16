@@ -9,6 +9,10 @@
       "destination": "https://www.24h.com.vn/:match*"
     },
     {
+      "source": "/tts",
+      "destination": "https://api.murf.ai/v1/speech/generate"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
