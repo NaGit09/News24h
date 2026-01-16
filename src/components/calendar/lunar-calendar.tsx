@@ -6,8 +6,8 @@ import { vi } from "date-fns/locale";
 import { type Event } from "../../lib/calendar-utils";
 import { getHoliday } from "@/services/calendar.service";
 import type { Holiday } from "@/types/calendar";
-import { CalendarDay } from "./CalendarDay";
-import { CalendarLegend } from "./CalendarLegend";
+import { CalendarDay } from "./calendar-day";
+import { CalendarLegend } from "./calendar-legend";
 
 interface LunarCalendarProps {
   date: Date | undefined;

@@ -4,10 +4,9 @@ import { Calendar } from "lucide-react";
 import { lazy } from "react";
 import Splitting from "@/components/common/splitting.tsx";
 
-const StockChart = lazy(() => import("@/components/stock/stock-chart.tsx"));
-const StockStats = lazy(() => import("@/components/stock/stock-stats.tsx"));
-const StockTable = lazy(() => import("@/components/stock/stock-table.tsx"));
-const StockNewsList = lazy(() => import("@/components/stock/stock-news-list.tsx"));
+const StockChart = lazy(() => import("@/components/stock/stock-chart"));
+const StockTable = lazy(() => import("@/components/stock/stock-table"));
+const StockNewsList = lazy(() => import("@/components/stock/stock-news-list"));
 
 const StockPage = () => {
   const { data, loading, error } = useStock();
