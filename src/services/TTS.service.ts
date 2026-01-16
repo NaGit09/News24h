@@ -10,16 +10,7 @@ export const createRecord = async (
       voice_id: "Lia",
       multiNativeLocale: "vi-VN",
       format: "wav",
-    }, {
-      headers: {
-        "api-key": import.meta.env.VITE_MURF_KEY || "",
-        "token": import.meta.env.VITE_MURF_TOKEN || "",
-      },
     });
-
-    if (!response.data?.audioFile) {
-      throw new Error("Invalid Murf response");
-    }
 
     return {
       audioFile: response.data.audioFile,
