@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { ImageWithFallback } from "@/components/common/image-with-fallback";
+import { formatRelativeTime } from "@/lib/time";
 
 interface NewsCardFeaturedProps {
   title: string;
