@@ -19,6 +19,7 @@ import { UserIcon } from "../ui/user.tsx";
 import { MenuIcon } from "../ui/menu.tsx";
 import { ChartLineIcon, type ChartLineIconHandle } from "../ui/chart-line.tsx";
 import { useWeather } from "@/hooks/use-weather.ts";
+import { UserStatsBadge } from "../common/user-stats-badge";
 
 export function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -132,12 +133,14 @@ export function Header() {
                   >
                     <SearchIcon size={18} />
                   </button>
-                  <button
-                    className="p-1 rounded hover:bg-muted transition-colors"
-                    aria-label="User menu"
+                  <Link
+                    to="/ca-nhan"
+                    className="p-1 rounded hover:bg-muted transition-colors relative"
+                    aria-label="User profile"
                   >
                     <UserIcon size={18} />
-                  </button>
+                    <UserStatsBadge />
+                  </Link>
                   <button
                     className="lg:hidden p-1"
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

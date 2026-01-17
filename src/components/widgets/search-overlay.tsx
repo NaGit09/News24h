@@ -1,6 +1,7 @@
 import {useCallback, useEffect, useState} from "react"
 import {Clock, Filter, Search, TrendingUp, X} from "lucide-react"
 import {Link} from "react-router"
+import { ImageWithFallback } from "@/components/common/image-with-fallback"
 
 
 interface SearchResult {
@@ -193,11 +194,12 @@ export function SearchOverlay({isOpen, onClose}: SearchOverlayProps) {
                                             onClick={onClose}
                                             className="flex gap-4 p-3 rounded hover:bg-muted transition-colors group"
                                         >
-                                            <div className="relative w-32 h-20 shrink-0 overflow-hidden rounded">
-                                                <img
-                                                    src={result.thumbnail || "/placeholder.svg"}
+                                            <div className="relative w-32 h-20 shrink-0 overflow-hidden rounded bg-muted">
+                                                <ImageWithFallback
+                                                    src={result.thumbnail}
                                                     alt={result.title}
-                                                    className="object-cover group-hover:scale-105 transition-transform"
+                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                                                    fallbackSrc="/placeholder.svg"
                                                 />
                                             </div>
                                             <div className="flex-1 min-w-0">

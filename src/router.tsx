@@ -11,6 +11,7 @@ const NotFound = lazy(() => import("@/pages/not-found"));
 const StockPage = lazy(() => import("@/pages/stock"));
 const WeatherPage = lazy(() => import("@/pages/weather"));
 const CalendarPage = lazy(() => import("@/pages/calendar"));
+const ProfilePage = lazy(() => import("@/pages/profile"));
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
       { path: "thoi-tiet", element: <WeatherPage /> },
       { path: "calendar", element: <CalendarPage /> },
       { path: "lich-van-nien", element: <CalendarPage /> },
+      { path: "ca-nhan", element: <ProfilePage /> },
       { path: "*", element: <NotFound /> },
     ],
   },
